@@ -1,23 +1,25 @@
 {
-    "name": "aquanode/elemental",
-    "description": "",
-    "authors": [
-        {
-            "name": "Cody Jassman",
-            "email": "cody@aquanode.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.0.x"
-    },
-    "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
-        "psr-0": {
-            "Aquanode\\Elemental": "src/"
-        }
-    },
-    "minimum-stability": "dev"
+	"name": "aquanode/elemental",
+	"description": "An HTML element building composer package that simplifies creation of active, selected, or hidden elements.",
+	"license": "MIT",
+	"description": "",
+	"authors": [
+		{
+			"name": "Cody Jassman",
+			"email": "cody@aquanode.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"illuminate/support": "4.0.x"
+	},
+	"autoload": {
+		"classmap": [
+			"src/migrations"
+		],
+		"psr-0": {
+			"Aquanode\\Elemental": "src/"
+		}
+	},
+	"minimum-stability": "dev"
 }
