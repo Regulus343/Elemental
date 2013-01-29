@@ -2,7 +2,8 @@
 
 /*----------------------------------------------------------------------------------------------------------
 	Elemental
-		An HTML element building class that simplifies creation of active, selected, or hidden elements.
+		An HTML element building composer package that simplifies creation of
+		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
 		last updated on January 28, 2013
