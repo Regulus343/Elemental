@@ -2,7 +2,6 @@
 	"name": "aquanode/elemental",
 	"description": "An HTML element building composer package that simplifies creation of active, selected, or hidden elements.",
 	"license": "MIT",
-	"description": "",
 	"authors": [
 		{
 			"name": "Cody Jassman",
