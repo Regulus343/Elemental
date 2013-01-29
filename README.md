@@ -11,7 +11,7 @@ Elemental removes the need for you do to things like this in your markup:
 		...
 	</div><!-- /#content -->
 
-Instead, you will be able to use this simple syntax instead:
+Instead, you will be able to use this simple syntax:
 
 	<?php echo HTML::openHiddenArea('div', '#content', isset($contentHidden)); ?>
 		...
@@ -49,3 +49,17 @@ You may use 'Elemental', or another alias, but 'HTML' is recommended for the sak
 The second argument can contain a string for a single class or ID like ".class" or "#id" or it may contain an array of all the attributes you would like to use.
 
 You may use `HTML::openActiveArea()` and `HTML::openSelectedArea()` which add "active" and "selected" classes respectively. All of these classes make use of the base method `HTML::openDynamicArea()` which includes the class name as its fourth argument. The three methods that make use of it simply exist as a short form to create some common dynamic elements.
+
+**Closing an element:**
+
+	echo HTML::closeArea('div');
+
+This method exists for the sake of completeness and also to prevent erroneous syntax highlighting in certain IDEs. If you open an HTML element in PHP, you should create your closing tag with PHP as well. You may include the class (".class") or ID ("#id") of the element as the second argument to have an HTML comment added to the line for the closing tag. This may help when trying to find where elements are opened and where they are closed in your source code.
+
+**Closing an element and adding an identifying comment:**
+
+	echo HTML::closeArea('div', '#content');
+
+The above code outputs this:
+
+	</div><!-- /#content -->
