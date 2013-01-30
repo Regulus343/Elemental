@@ -44,7 +44,7 @@ You may use 'Elemental', or another alias, but 'HTML' is recommended for the sak
 
 **Creating a dynamic element that may have a "hidden" class:**
 
-	echo HTML::openHiddenArea('div', array('id' => 'side-content', 'class' => 'content', isset($sideContentHidden));
+	echo HTML::openHiddenArea('div', array('id' => 'side-content', 'class' => 'content'), isset($sideContentHidden));
 
 The second argument can contain a string for a single class or ID like ".class" or "#id" or it may contain an array of all the attributes you would like to use.
 
