@@ -23,7 +23,7 @@ Instead, you will be able to use this simple syntax:
 <a name="installation"></a>
 ## Installation
 
-To install Elemental, make sure "aquanode/elemental" has been added to Laravel 4's config.json file.
+To install Elemental, make sure "aquanode/elemental" has been added to Laravel 4's `composer.json` file.
 
 	"require": {
 		"aquanode/elemental": "dev-master"
