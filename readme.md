@@ -63,3 +63,16 @@ This method exists for the sake of completeness and also to prevent erroneous sy
 The above code outputs this:
 
 	</div><!-- /#content -->
+
+You may also add the dynamic area function inside of HTML elements as well:
+
+
+	<li id="animal1"<?php echo HTML::dynamicArea($animal == 1, 'selected'); ?>>
+		Zebra
+	</li>
+
+	<li id="animal2" class="predator<?php echo HTML::dynamicArea($animal == 2, 'selected', true); ?>">
+		Cheetah
+	</li>
+
+In the last example, the third parameter is set to true because the method is called inside the class attribute declaration.

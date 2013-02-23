@@ -33,12 +33,12 @@ class Elemental {
 	 *
 	 * @param  string   $element
 	 * @param  mixed    $attributes
-	 * @param  boolean  $active
+	 * @param  boolean  $selected
 	 * @return void
 	 */
-	public static function openSelectedArea($element = 'div', $attributes = array(), $active = false)
+	public static function openSelectedArea($element = 'div', $attributes = array(), $selected = false)
 	{
-		return static::openDynamicArea($element, $attributes, $active, 'selected');
+		return static::openDynamicArea($element, $attributes, $selected, 'selected');
 	}
 
 	/**
@@ -48,12 +48,12 @@ class Elemental {
 	 *
 	 * @param  string   $element
 	 * @param  mixed    $attributes
-	 * @param  boolean  $active
+	 * @param  boolean  $hidden
 	 * @return void
 	 */
-	public static function openHiddenArea($element = 'div', $attributes = array(), $active = false)
+	public static function openHiddenArea($element = 'div', $attributes = array(), $hidden = false)
 	{
-		return static::openDynamicArea($element, $attributes, $active, 'hidden');
+		return static::openDynamicArea($element, $attributes, $hidden, 'hidden');
 	}
 
 	/**
@@ -88,6 +88,62 @@ class Elemental {
 		}
 
 		return '<'.$element.static::attributes($attributesFormatted).'>' . "\n";
+	}
+
+	/**
+	 * Add a class to an element based on whether the given variable is true.
+	 *
+	 * @param  boolean  $active
+	 * @param  string   $class
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function dynamicArea($active = false, $class = 'selected', $inClass = false)
+	{
+		if ($active) {
+			if ($inClass) {
+				return ' '.$class;
+			} else {
+				return ' class="'.$class.'"';
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Add an "active" class to an element based on whether the given variable is true.
+	 *
+	 * @param  boolean  $active
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function activeArea($active = false, $inClass = false)
+	{
+		return static::dynamicArea($active, 'active', $inClass);
+	}
+
+	/**
+	 * Add an "selected" class to an element based on whether the given variable is true.
+	 *
+	 * @param  boolean  $selected
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function selectedArea($selected = false, $inClass = false)
+	{
+		return static::dynamicArea($selected, 'selected', $inClass);
+	}
+
+	/**
+	 * Add an "hidden" class to an element based on whether the given variable is true.
+	 *
+	 * @param  boolean  $hidden
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function hiddenArea($hidden = false, $inClass = false)
+	{
+		return static::dynamicArea($hidden, 'hidden', $inClass);
 	}
 
 	/**
