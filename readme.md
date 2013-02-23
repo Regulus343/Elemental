@@ -64,7 +64,7 @@ The above code outputs this:
 
 	</div><!-- /#content -->
 
-You may also add the dynamic area function inside of HTML elements as well:
+You may also add the dynamic area function inside of HTML elements:
 
 
 	<li id="animal1"<?php echo HTML::dynamicArea($animal == 1, 'selected'); ?>>
