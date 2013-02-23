@@ -75,4 +75,4 @@ You may also add the dynamic area function inside of HTML elements:
 		Cheetah
 	</li>
 
-In the last example, the third parameter is set to true because the method is called inside the class attribute declaration.
+In the last example, the third parameter is set to `true` because the method is called inside the class attribute declaration.
