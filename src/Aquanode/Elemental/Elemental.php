@@ -83,7 +83,7 @@ class Elemental {
 			if (isset($attributesFormatted['class']) && $attributesFormatted['class'] != "") {
 				$attributesFormatted['class'] .= ' '.$class;
 			} else {
-				$attributesFormatted['class'] .= $class;
+				$attributesFormatted['class'] = $class;
 			}
 		}
 
@@ -144,6 +144,27 @@ class Elemental {
 	public static function hiddenArea($hidden = false, $inClass = false)
 	{
 		return static::dynamicArea($hidden, 'hidden', $inClass);
+	}
+
+	/**
+	 * Add a class to an element based on an array of options. The indexes of the array are the strng options and the
+	 * values are the corresponding classes to add to the element.
+	 *
+	 * @param  boolean  $value
+	 * @param  string   $options
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function dynamicAreaOptions($value, $options = array(), $inClass = false)
+	{
+		if (isset($options[$value])) {
+			if ($inClass) {
+				return ' '.$options[$value];
+			} else {
+				return ' class="'.$options[$value].'"';
+			}
+		}
+		return '';
 	}
 
 	/**
