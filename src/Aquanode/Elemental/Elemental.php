@@ -205,18 +205,47 @@ class Elemental {
 		$columns = $config['columns'];
 		$rows    = $config['rows'];
 
+		$footer  = false;
+		if (isset($config['footer']) && $config['footer']) $footer = true;
+
+		for ($c = 0; $c < count($columns); $c++) {
+			//set column label from attribute if label is not set
+			if (!isset($columns[$c]['label'])) {
+				$label = "";
+				if (isset($columns[$c]['attribute'])) $label = $columns[$c]['attribute'];
+
+				if ($label == "id") $label = strtoupper($label);
+				$label = ucwords(str_replace(' ', '_', $label));
+			} else {
+				$label = $columns[$c]['label'];
+			}
+
+			//if label does not contain HTML, covert special characters
+			if ($label == strip_tags($label))
+				$columns[$c]['label'] = static::entities($label);
+
+			//format method if necessary
+			if (isset($columns[$c]['method']))
+				$columns[$c]['method'] = str_replace('()', '', $columns[$c]['method']);
+
+			//make header cell class and body cell class blank if they are not set
+			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = "";
+			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
+
+			//check if footer is set through columns array
+			if (isset($column['footer'])) $footer = true;
+		}
+
 		return View::make('elemental::table')
 			->with('table', $table)
 			->with('columns', $columns)
 			->with('rows', $rows)
+			->with('footer', $footer)
 			->with('data', $data)
 			->render();
 
 		/*$html  = '<table class="table'.(isset($table['class']) && $table['class'] != "" ? ' '.$table['class'] : '').'">';
 		$html .= '<thead><tr>';
-
-		if (!isset($table['columns'])) $table['columns'] = array();
-		if (!isset($table['rows']))    $table['rows']    = array();
 
 		$footer = false;
 		foreach ($setup['columns'] as $column) {
