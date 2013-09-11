@@ -6,8 +6,10 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on January 28, 2013
+		last updated on September 10, 2013
 ----------------------------------------------------------------------------------------------------------*/
+
+use Illuminate\Support\Facades\View;
 
 class Elemental {
 
@@ -183,6 +185,67 @@ class Elemental {
 		if ($identifier && is_string($identifier) && $identifier != "") {
 			$html .= '<!-- /'.$identifier.' -->' . "\n";
 		}
+		return $html;
+	}
+
+	/**
+	 * Create a table according to a complex configuration array.
+	 *
+	 * @param  array    $config
+	 * @param  array    $data
+	 * @return void
+	 */
+	public static function table($config, $data = array())
+	{
+		if (!isset($config['table']))   $config['table']   = array();
+		if (!isset($config['columns'])) $config['columns'] = array();
+		if (!isset($config['rows']))    $config['rows']    = array();
+
+		$table   = $config['table'];
+		$columns = $config['columns'];
+		$rows    = $config['rows'];
+
+		return View::make('elemental::table')
+			->with('table', $table)
+			->with('columns', $columns)
+			->with('rows', $rows)
+			->with('data', $data)
+			->render();
+
+		/*$html  = '<table class="table'.(isset($table['class']) && $table['class'] != "" ? ' '.$table['class'] : '').'">';
+		$html .= '<thead><tr>';
+
+		if (!isset($table['columns'])) $table['columns'] = array();
+		if (!isset($table['rows']))    $table['rows']    = array();
+
+		$footer = false;
+		foreach ($setup['columns'] as $column) {
+			if (isset($column['title'])) {
+				$html .= '<th>'.$column['title'].'</th>';
+			} else if (isset($column['attribute'])) {
+				$title = $column['attribute'];
+				if ($title == "id") $title = strtoupper($title);
+				$title = ucwords(str_replace(' ', '_', $column['attribute']));
+				$html .= '<th>'.$title.'</th>';
+			} else {
+				$html .= '<th>&nbsp;</th>';
+			}
+
+			if (isset($column['footer'])) $footer = true;
+		}
+
+		$html .= '</tr></thead><tbody>';
+
+		$html .= '</tbody>';
+
+		if ($footer) {
+			$html .= '<tfoot>';
+
+			$html .= '</tfoot>';
+		}
+
+		$html .= '</table>';
+		return $html;*/
 	}
 
 	/**
