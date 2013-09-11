@@ -224,7 +224,10 @@ class Elemental {
 			if ($label == strip_tags($label))
 				$columns[$c]['label'] = static::entities($label);
 
-			//format method if necessary
+			//format data with "type"
+			if (!isset($columns[$c]['type'])) $columns[$c]['type'] = "";
+
+			//format "method" if necessary
 			if (isset($columns[$c]['method']))
 				$columns[$c]['method'] = str_replace('()', '', $columns[$c]['method']);
 
@@ -275,6 +278,26 @@ class Elemental {
 
 		$html .= '</table>';
 		return $html;*/
+	}
+
+	/**
+	 * Format a table cell for table() method.
+	 *
+	 * @param  mixed    $cellData
+	 * @param  string   $type
+	 * @return mixed
+	 */
+	public static function formatTableCell($cellData, $type)
+	{
+		if ($type != "") {
+			switch (strtolower($type)) {
+				case "date":     $cellData = Format::date($cellData, Config::get('elemental::dateFormat')); break;
+				case "datetime": $cellData = Format::date($cellData, Config::get('elemental::dateTimeFormat')); break;
+				case "money":    $cellData = Format::money($cellData); break;
+				case "phone":    $cellData = Format::phone($cellData); break;
+			}
+		}
+		return $cellData;
 	}
 
 	/**
