@@ -15,18 +15,28 @@
 
 					@if (isset($column['attribute']))
 						@foreach ($dataRowArray as $dataCol => $dataCell)
-
 							@if ($dataCol == $column['attribute'])
-								<td>{{ $dataCell }}</td>
-							@endif
 
+								<td>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
+
+							@endif
 						@endforeach
 					@elseif (isset($column['method']))
 
 						<td>{{ $dataRow->$column['method']() }}</td>
 
 					@else
-						<td>Test</td>
+						<td>
+							@if (isset($column['elements']) && !empty($column['elements']))
+								@foreach ($column['elements'] as $element)
+
+									{{ Elemental::createElement($element, $dataRowArray) }}
+
+								@endforeach
+							@else
+								&nbsp;
+							@endif
+						</td>
 					@endif
 				@endforeach
 			</tr>

@@ -6,10 +6,14 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on September 10, 2013
+		last updated on September 11, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+
+use Regulus\TetraText\TetraText as Format;
 
 class Elemental {
 
@@ -287,7 +291,7 @@ class Elemental {
 	 * @param  string   $type
 	 * @return mixed
 	 */
-	public static function formatTableCell($cellData, $type)
+	public static function formatTableCellData($cellData, $type)
 	{
 		if ($type != "") {
 			switch (strtolower($type)) {
@@ -298,6 +302,69 @@ class Elemental {
 			}
 		}
 		return $cellData;
+	}
+
+	/**
+	 * Format a table cell for table() method.
+	 *
+	 * @param  array    $cellData
+	 * @param  string   $type
+	 * @return string
+	 */
+	public static function createElement($element, $item)
+	{
+		$html = '';
+
+		if (!isset($element['tag']) || $element['tag'] == "")
+			$element['tag'] = "a";
+
+		if (!isset($element['attributes']))
+			$element['attributes'] = array();
+
+		if (isset($element['class']))
+			$element['attributes']['class'] = $element['class'];
+
+		if (isset($element['selfClosing']) && $element['selfClosing']) {
+			$selfClosing = true;
+		} else {
+			$selfClosing = false;
+		}
+
+		if ($element['tag'] == "a") {
+			$element['attributes']['href'] = "";
+			if (isset($element['uri'])) {
+				$element['attributes']['href'] = URL::to($element['uri']);
+			} else if (isset($element['href']) && $element['href'] != "") {
+				$element['attributes']['href'] = $element['href'];
+			}
+		}
+
+		//add data to attributes where necessary
+		foreach ($element['attributes'] as $attribute => $value) {
+			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match)) {
+				$segments    = explode('/', $match[1]);
+				$segments[0] = isset($item[$segments[0]]) ? $item[$segments[0]] : '';
+
+				$element['attributes'][$attribute] = str_replace($match[0], implode('/', $segments), $element['attributes'][$attribute]);
+			}
+		}
+
+		$html .= '<'.$element['tag'].static::attributes($element['attributes']);
+		if (!$selfClosing) $html .= '>';
+
+		if (isset($element['icon']) && $element['icon'] != "")
+			$html .= '<span class="glyphicon glyphicon-'.trim($element['icon']).'"></span>';
+
+		if (isset($element['text']) && $element['text'] != "")
+			$html .= $element['text'];
+
+		if ($selfClosing) {
+			$html .= ' />';
+		} else {
+			$html .= '</'.$element['tag'].'>';
+		}
+
+		return $html;
 	}
 
 	/**
