@@ -3,40 +3,47 @@
 	<thead>
 		<tr>
 			@foreach ($columns as $column)
-				<th{{ Elemental::dynamicArea(isset($column['headerClass']) && $column['headerClass'] != "", $column['headerClass']) }}>{{ $column['label'] }}</th>
+				@if (!$column['developer'] || Session::get('developer'))
+					<th{{ Elemental::dynamicArea(isset($column['headerClass']) && $column['headerClass'] != "", $column['headerClass']) }}>{{ $column['label'] }}</th>
+				@endif
 			@endforeach
 		</tr>
 	</thead>
 	<tbody>
 		@foreach ($data as $dataRow)
-			<tr>
+			<tr id="{{ $rows['idPrefix'].$dataRow->id }}"{{ Elemental::getTableRowClass($dataRow, $rows) }}>
 				<?php $dataRowArray = $dataRow->toArray(); ?>
 				@foreach ($columns as $column)
+					@if (!$column['developer'] || Session::get('developer'))
+						@if (isset($column['method']))
 
-					@if (isset($column['attribute']))
-						@foreach ($dataRowArray as $dataCol => $dataCell)
-							@if ($dataCol == $column['attribute'])
-
-								<td>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
-
-							@endif
-						@endforeach
-					@elseif (isset($column['method']))
-
-						<td>{{ $dataRow->$column['method']() }}</td>
-
-					@else
-						<td>
-							@if (isset($column['elements']) && !empty($column['elements']))
-								@foreach ($column['elements'] as $element)
-
-									{{ Elemental::createElement($element, $dataRowArray) }}
-
-								@endforeach
+							@if (isset($column['attribute']) && $column['type'] == "list")
+								<td>{{ Format::objListToStr($dataRow->$column['method'], $column['attribute']) }}</td>
 							@else
-								&nbsp;
+								<td>{{ $dataRow->$column['method']() }}</td>
 							@endif
-						</td>
+
+						@elseif (isset($column['attribute']))
+							@foreach ($dataRowArray as $dataCol => $dataCell)
+								@if ($dataCol == $column['attribute'])
+
+									<td>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
+
+								@endif
+							@endforeach
+						@else
+							<td>
+								@if (isset($column['elements']) && !empty($column['elements']))
+									@foreach ($column['elements'] as $element)
+
+										{{ Elemental::createElement($element, $dataRowArray) }}
+
+									@endforeach
+								@else
+									&nbsp;
+								@endif
+							</td>
+						@endif
 					@endif
 				@endforeach
 			</tr>

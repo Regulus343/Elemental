@@ -239,9 +239,17 @@ class Elemental {
 			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = "";
 			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
 
+			//set developer flag
+			if (!isset($columns[$c]['developer']))
+				$columns[$c]['developer'] = false;
+
 			//check if footer is set through columns array
 			if (isset($column['footer'])) $footer = true;
 		}
+
+		//set ID prefix for table row IDs
+		if (!isset($rows['idPrefix'])) $rows['idPrefix'] = "item";
+		$rows['idPrefix'] .= '-';
 
 		return View::make('elemental::table')
 			->with('table', $table)
@@ -250,38 +258,42 @@ class Elemental {
 			->with('footer', $footer)
 			->with('data', $data)
 			->render();
+	}
 
-		/*$html  = '<table class="table'.(isset($table['class']) && $table['class'] != "" ? ' '.$table['class'] : '').'">';
-		$html .= '<thead><tr>';
+	/**
+	 * Get a class for a table row based on settings.
+	 *
+	 * @param  object   $row
+	 * @param  array    $rowSettings
+	 * @return string
+	 */
+	public static function getTableRowClass($row, $rowSettings = array())
+	{
+		$class = '';
+		if (isset($rowSettings['classModifiers'])) {
+			foreach ($rowSettings['classModifiers'] as $potentialClass => $values) {
+				$valid = true;
+				foreach ($values as $attribute => $value) {
 
-		$footer = false;
-		foreach ($setup['columns'] as $column) {
-			if (isset($column['title'])) {
-				$html .= '<th>'.$column['title'].'</th>';
-			} else if (isset($column['attribute'])) {
-				$title = $column['attribute'];
-				if ($title == "id") $title = strtoupper($title);
-				$title = ucwords(str_replace(' ', '_', $column['attribute']));
-				$html .= '<th>'.$title.'</th>';
-			} else {
-				$html .= '<th>&nbsp;</th>';
+					if (is_bool($value)) {
+						if ((bool) $row->{$attribute} != $value)
+							$valid = false;
+					} else if (is_integer($value)) {
+						if ((int) $row->{$attribute} != $value)
+							$valid = false;
+					} else {
+						if ($row->{$attribute} != $value)
+							$valid = false;
+					}
+				}
+				if ($valid) {
+					if ($class == '') $class = ' class="';
+					$class .= $potentialClass;
+				}
 			}
-
-			if (isset($column['footer'])) $footer = true;
+			if ($class != '') $class .= '"';
 		}
-
-		$html .= '</tr></thead><tbody>';
-
-		$html .= '</tbody>';
-
-		if ($footer) {
-			$html .= '<tfoot>';
-
-			$html .= '</tfoot>';
-		}
-
-		$html .= '</table>';
-		return $html;*/
+		return $class;
 	}
 
 	/**
@@ -291,7 +303,7 @@ class Elemental {
 	 * @param  string   $type
 	 * @return mixed
 	 */
-	public static function formatTableCellData($cellData, $type)
+	public static function formatTableCellData($cellData, $type, $typeDetails = false)
 	{
 		if ($type != "") {
 			switch (strtolower($type)) {
@@ -299,6 +311,11 @@ class Elemental {
 				case "datetime": $cellData = Format::date($cellData, Config::get('elemental::dateTimeFormat')); break;
 				case "money":    $cellData = Format::money($cellData); break;
 				case "phone":    $cellData = Format::phone($cellData); break;
+				case "boolean":
+					if (!$typeDetails) $typeDetails = "Yes/No";
+					$typeDetailsArray = explode('/', $typeDetails);
+					$cellData         = (bool) $cellData ? $typeDetailsArray[0] : $typeDetailsArray[1];
+					break;
 			}
 		}
 		return $cellData;
