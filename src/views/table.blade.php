@@ -28,7 +28,7 @@
 								@foreach ($dataRowArray as $dataCol => $dataCell)
 									@if ($dataCol == $column['attribute'])
 
-										<td{{ Elemental::getTableColumnClass($column) }}>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
+										<td{{ Elemental::getTableColumnClass($column) }}>{{ Elemental::formatTableCellData($dataCell, $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) }}</td>
 
 									@endif
 								@endforeach

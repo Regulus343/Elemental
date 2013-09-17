@@ -323,9 +323,13 @@ class Elemental {
 				case "money":    $cellData = Format::money($cellData); break;
 				case "phone":    $cellData = Format::phone($cellData); break;
 				case "boolean":
-					if (!$typeDetails) $typeDetails = "Yes/No";
-					$typeDetailsArray = explode('/', $typeDetails);
-					$cellData         = (bool) $cellData ? $typeDetailsArray[0] : $typeDetailsArray[1];
+					if (!$typeDetails)
+						$typeDetails = "Yes/No";
+
+					if (!is_array($typeDetails))
+						$typeDetails = explode('/', $typeDetails);
+
+					$cellData = (bool) $cellData ? $typeDetails[0] : $typeDetails[1];
 					break;
 			}
 		}
