@@ -19,21 +19,21 @@
 							@if (isset($column['method']))
 
 								@if (isset($column['attribute']) && $column['type'] == "list")
-									<td>{{ Format::objListToStr($dataRow->$column['method'], $column['attribute']) }}</td>
+									<td{{ Elemental::getTableColumnClass($column) }}>{{ Format::objListToStr($dataRow->$column['method'], $column['attribute']) }}</td>
 								@else
-									<td>{{ $dataRow->$column['method']() }}</td>
+									<td{{ Elemental::getTableColumnClass($column) }}>{{ $dataRow->$column['method']() }}</td>
 								@endif
 
 							@elseif (isset($column['attribute']))
 								@foreach ($dataRowArray as $dataCol => $dataCell)
 									@if ($dataCol == $column['attribute'])
 
-										<td>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
+										<td{{ Elemental::getTableColumnClass($column) }}>{{ Elemental::formatTableCellData($dataCell, $column['type']) }}</td>
 
 									@endif
 								@endforeach
 							@else
-								<td>
+								<td{{ Elemental::getTableColumnClass($column) }}>
 									@if (isset($column['elements']) && !empty($column['elements']))
 										@foreach ($column['elements'] as $element)
 

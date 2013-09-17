@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on September 11, 2013
+		last updated on September 16, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -294,6 +294,17 @@ class Elemental {
 			if ($class != '') $class .= '"';
 		}
 		return $class;
+	}
+
+	/**
+	 * Get a class for a table column based on settings.
+	 *
+	 * @param  array    $columnSettings
+	 * @return string
+	 */
+	public static function getTableColumnClass($columnSettings)
+	{
+		return static::dynamicArea((isset($columnSettings['class']) && $columnSettings['class'] != ""), $columnSettings['class']);
 	}
 
 	/**
