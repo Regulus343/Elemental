@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on September 21, 2013
+		last updated on September 22, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -349,8 +349,6 @@ class Elemental {
 		if (isset($element['conditions']) && is_array($element['conditions'])) {
 			$conditionsSatisfied = true;
 			foreach ($element['conditions'] as $attribute => $value) {
-
-
 				if (is_bool($value)) {
 					if ((bool) $item[$attribute] != $value)
 						$conditionsSatisfied = false;
@@ -363,6 +361,32 @@ class Elemental {
 				}
 			}
 			if (!$conditionsSatisfied) return $html;
+		}
+
+		$class = isset($element['class']) ? $element['class'] : '';
+		if (isset($element['classModifiers'])) {
+			foreach ($element['classModifiers'] as $potentialClass => $values) {
+				$valid = true;
+				foreach ($values as $attribute => $value) {
+					if (is_bool($value)) {
+						if ((bool) $item[$attribute] != $value)
+							$valid = false;
+					} else if (is_integer($value)) {
+						if ((int) $item[$attribute] != $value)
+							$valid = false;
+					} else {
+						if ($item[$attribute] != $value)
+							$valid = false;
+					}
+				}
+				if ($valid) {
+					if ($class != '') $class .= ' ';
+					$class .= $potentialClass;
+				}
+			}
+
+			if ($class != '')
+				$element['class'] = $class;
 		}
 
 		if (!isset($element['tag']) || $element['tag'] == "")
