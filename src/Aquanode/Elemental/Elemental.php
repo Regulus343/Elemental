@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on September 22, 2013
+		last updated on September 23, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -272,19 +272,7 @@ class Elemental {
 		$class = '';
 		if (isset($rowSettings['classModifiers'])) {
 			foreach ($rowSettings['classModifiers'] as $potentialClass => $values) {
-				$valid = true;
-				foreach ($values as $attribute => $value) {
-					if (is_bool($value)) {
-						if ((bool) $row->{$attribute} != $value)
-							$valid = false;
-					} else if (is_integer($value)) {
-						if ((int) $row->{$attribute} != $value)
-							$valid = false;
-					} else {
-						if ($row->{$attribute} != $value)
-							$valid = false;
-					}
-				}
+				$valid = static::testAttributeConditions($row, $values);
 				if ($valid) {
 					if ($class == '') $class = ' class="';
 					$class .= $potentialClass;
@@ -347,38 +335,15 @@ class Elemental {
 		$html = '';
 
 		if (isset($element['conditions']) && is_array($element['conditions'])) {
-			$conditionsSatisfied = true;
-			foreach ($element['conditions'] as $attribute => $value) {
-				if (is_bool($value)) {
-					if ((bool) $item[$attribute] != $value)
-						$conditionsSatisfied = false;
-				} else if (is_integer($value)) {
-					if ((int) $item[$attribute] != $value)
-						$conditionsSatisfied = false;
-				} else {
-					if ($item[$attribute] != $value)
-						$conditionsSatisfied = false;
-				}
-			}
-			if (!$conditionsSatisfied) return $html;
+			$valid = static::testAttributeConditions($item, $element['conditions']);
+
+			if (!$valid) return $html;
 		}
 
 		$class = isset($element['class']) ? $element['class'] : '';
 		if (isset($element['classModifiers'])) {
 			foreach ($element['classModifiers'] as $potentialClass => $values) {
-				$valid = true;
-				foreach ($values as $attribute => $value) {
-					if (is_bool($value)) {
-						if ((bool) $item[$attribute] != $value)
-							$valid = false;
-					} else if (is_integer($value)) {
-						if ((int) $item[$attribute] != $value)
-							$valid = false;
-					} else {
-						if ($item[$attribute] != $value)
-							$valid = false;
-					}
-				}
+				$valid = static::testAttributeConditions($item, $values);
 				if ($valid) {
 					if ($class != '') $class .= ' ';
 					$class .= $potentialClass;
@@ -439,6 +404,60 @@ class Elemental {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Test attribute conditions to decide whether to show elements in the table() method.
+	 *
+	 * @param  mixed   $item
+	 * @param  array   $values
+	 * @return boolean
+	 */
+	public static function testAttributeConditions($item, $values)
+	{
+		if (!is_array($item))
+			$item = $item->toArray();
+
+		$valid = true;
+		foreach ($values as $attribute => $value) {
+			$operator  = "==";
+			$operators = array(
+				'==',
+				'!=',
+				'<',
+				'<=',
+				'>',
+				'>=',
+			);
+			foreach ($operators as $operatorListed) {
+				if (substr($value, 0, strlen($operatorListed)) == $operatorListed) {
+					$value = trim(substr($value, strlen($operatorListed)));
+					$operator = $operatorListed;
+				}
+			}
+
+			if ($value == "true")
+				$value = true;
+
+			if ($value == "false")
+				$value = true;
+
+			$attributeValue = $item[$attribute];
+			if (is_bool($value)) {
+				$attributeValue = (bool) $attributeValue;
+			} else if (is_integer($value)) {
+				$attributeValue = (int)  $attributeValue;
+			}
+
+			if ($operator == "==" && $attributeValue != $value) $valid = false;
+			if ($operator == "!=" && $attributeValue == $value) $valid = false;
+			if ($operator == "<"  && $attributeValue >= $value) $valid = false;
+			if ($operator == "<=" && $attributeValue > $value)  $valid = false;
+			if ($operator == ">"  && $attributeValue <= $value) $valid = false;
+			if ($operator == ">=" && $attributeValue < $value)  $valid = false;
+		}
+
+		return $valid;
 	}
 
 	/**
