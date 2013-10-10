@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on September 23, 2013
+		last updated on October 10, 2013
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -369,6 +369,9 @@ class Elemental {
 			$selfClosing = false;
 		}
 
+		if (isset($element['url']) && !isset($element['href']))
+			$element['href'] = $element['url'];
+
 		if ($element['tag'] == "a") {
 			$element['attributes']['href'] = "";
 			if (isset($element['uri'])) {
@@ -394,8 +397,15 @@ class Elemental {
 		if (isset($element['icon']) && $element['icon'] != "")
 			$html .= '<span class="glyphicon glyphicon-'.trim($element['icon']).'"></span>';
 
-		if (isset($element['text']) && $element['text'] != "")
+		if (isset($element['text']) && $element['text'] != "") {
+			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match)) {
+				$segments    = explode('/', $match[1]);
+				$segments[0] = isset($item[$segments[0]]) ? $item[$segments[0]] : '';
+
+				$element['text'] = str_replace($match[0], implode('/', $segments), $element['text']);
+			}
 			$html .= $element['text'];
+		}
 
 		if ($selfClosing) {
 			$html .= ' />';
