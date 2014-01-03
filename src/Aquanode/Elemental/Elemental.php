@@ -197,9 +197,10 @@ class Elemental {
 	 *
 	 * @param  array    $config
 	 * @param  array    $data
+	 * @param  boolean  $bodyOnly
 	 * @return void
 	 */
-	public static function table($config, $data = array())
+	public static function table($config, $data = array(), $bodyOnly = false)
 	{
 		if (!isset($config['table']))   $config['table']   = array();
 		if (!isset($config['columns'])) $config['columns'] = array();
@@ -261,7 +262,12 @@ class Elemental {
 		if (!isset($rows['idPrefix'])) $rows['idPrefix'] = "item";
 		$rows['idPrefix'] .= '-';
 
-		return View::make('elemental::table')
+		if ($bodyOnly)
+			$view = "elemental::partials.table_body";
+		else
+			$view = "elemental::table";
+
+		return View::make($view)
 			->with('table', $table)
 			->with('columns', $columns)
 			->with('rows', $rows)
