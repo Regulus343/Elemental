@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on October 10, 2013
+		last updated on January 1, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -238,6 +238,16 @@ class Elemental {
 			//make header cell class and body cell class blank if they are not set
 			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = "";
 			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
+
+			//add header data-sort-field attribute if "sort" is set
+			if (isset($columns[$c]['sort']) && (($columns[$c]['sort'] && isset($columns[$c]['attribute'])) || $columns[$c]['sort'] != "")) {
+				if (is_bool($columns[$c]['sort']) && $columns[$c]['sort'] && isset($columns[$c]['attribute']))
+					$columns[$c]['sortAttribute'] = ' data-sort-field="'.$columns[$c]['attribute'].'"';
+				else
+					$columns[$c]['sortAttribute'] = ' data-sort-field="'.$columns[$c]['sort'].'"';
+			} else {
+				$columns[$c]['sortAttribute'] = "";
+			}
 
 			//set developer flag
 			if (!isset($columns[$c]['developer']))

@@ -4,7 +4,10 @@
 		<tr>
 			@foreach ($columns as $column)
 				@if (!$column['developer'] || Session::get('developer'))
-					<th{{ Elemental::dynamicArea(isset($column['headerClass']) && $column['headerClass'] != "", $column['headerClass']) }}>{{ $column['label'] }}</th>
+					<th{{ Elemental::dynamicArea(isset($column['headerClass'])
+					&& $column['headerClass'] != "", $column['headerClass']) . $column['sortAttribute'] }}>
+						{{ $column['label'] }}
+					</th>
 				@endif
 			@endforeach
 		</tr>
