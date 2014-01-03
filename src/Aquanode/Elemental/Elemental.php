@@ -237,8 +237,8 @@ class Elemental {
 				$columns[$c]['method'] = str_replace('()', '', $columns[$c]['method']);
 
 			//make header cell class and body cell class blank if they are not set
-			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = "";
 			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
+			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = $columns[$c]['class'];
 
 			//add header data-sort-field attribute if "sort" is set
 			if (isset($columns[$c]['sort']) && (($columns[$c]['sort'] && isset($columns[$c]['attribute'])) || $columns[$c]['sort'] != "")) {
