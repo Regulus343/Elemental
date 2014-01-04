@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on January 2, 2014
+		last updated on January 4, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -220,7 +220,7 @@ class Elemental {
 				if (isset($columns[$c]['attribute'])) $label = $columns[$c]['attribute'];
 
 				if ($label == "id") $label = strtoupper($label);
-				$label = ucwords(str_replace(' ', '_', $label));
+				$label = ucwords(str_replace('_', ' ', $label));
 			} else {
 				$label = $columns[$c]['label'];
 			}
