@@ -338,7 +338,11 @@ class Elemental {
 					if (!is_array($typeDetails))
 						$typeDetails = explode('/', $typeDetails);
 
-					$cellData = (bool) $cellData ? $typeDetails[0] : $typeDetails[1];
+					if ((bool) $cellData)
+						$cellData = '<span class="boolean-true">'.$typeDetails[0].'</span>';
+					else
+						$cellData = '<span class="boolean-false">'.$typeDetails[1].'</span>';
+
 					break;
 			}
 		}
