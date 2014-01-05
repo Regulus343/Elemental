@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on January 4, 2014
+		last updated on January 5, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -239,6 +239,12 @@ class Elemental {
 			//make header cell class and body cell class blank if they are not set
 			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
 			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = $columns[$c]['class'];
+
+			//if the first column is the "id" attribute, automatically add a class
+			if (isset($columns[$c]['attribute']) && $columns[$c]['attribute'] == "id" && $c == 0) {
+				$idClass = "id-attribute";
+				$columns[$c]['class'] = ($columns[$c]['class'] != "") ? $columns[$c]['class'].' '.$idClass : $idClass;
+			}
 
 			//add header data-sort-field attribute if "sort" is set
 			if (isset($columns[$c]['sort']) && (($columns[$c]['sort'] && isset($columns[$c]['attribute'])) || $columns[$c]['sort'] != "")) {
