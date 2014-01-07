@@ -196,7 +196,7 @@ class Elemental {
 	 * Create a table according to a complex configuration array.
 	 *
 	 * @param  array    $config
-	 * @param  array    $data
+	 * @param  mixed    $data
 	 * @param  boolean  $bodyOnly
 	 * @return void
 	 */
