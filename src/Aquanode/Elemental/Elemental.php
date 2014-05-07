@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on January 5, 2014
+		last updated on May 6, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -60,6 +60,21 @@ class Elemental {
 	public static function openHiddenArea($element = 'div', $attributes = array(), $hidden = false)
 	{
 		return static::openDynamicArea($element, $attributes, $hidden, 'hidden');
+	}
+
+	/**
+	 * Create an opening tag for an element that has a toggle for being invisible. Attributes can
+	 * be defined as a string like ".class" or "#id" to simply specify a class or ID, or as an associative
+	 * array of attributes.
+	 *
+	 * @param  string   $element
+	 * @param  mixed    $attributes
+	 * @param  boolean  $invisible
+	 * @return void
+	 */
+	public static function openInvisibleArea($element = 'div', $attributes = array(), $invisible = false)
+	{
+		return static::openDynamicArea($element, $attributes, $invisible, 'invisible');
 	}
 
 	/**
@@ -150,6 +165,18 @@ class Elemental {
 	public static function hiddenArea($hidden = false, $inClass = false)
 	{
 		return static::dynamicArea($hidden, 'hidden', $inClass);
+	}
+
+	/**
+	 * Add an "invisible" class to an element based on whether the given variable is true.
+	 *
+	 * @param  boolean  $invisible
+	 * @param  boolean  $inClass
+	 * @return void
+	 */
+	public static function invisibleArea($invisible = false, $inClass = false)
+	{
+		return static::dynamicArea($invisible, 'invisible', $inClass);
 	}
 
 	/**
