@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on June 12, 2014
+		last updated on July 17, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Support\Facades\Config;
@@ -327,13 +327,15 @@ class Elemental {
 			foreach ($rowSettings['classModifiers'] as $potentialClass => $values) {
 				$valid = static::testAttributeConditions($row, $values);
 				if ($valid) {
-					if ($class == '') $class = ' class="';
+					if ($class != "")
+						$class .= " ";
+
 					$class .= $potentialClass;
 				}
 			}
-			if ($class != '') $class .= '"';
 		}
-		return $class;
+
+		return $class != "" ? ' class="'.$class.'"' : '';
 	}
 
 	/**
@@ -482,10 +484,8 @@ class Elemental {
 	 */
 	public static function testAttributeConditions($item, $values)
 	{
-		if (!is_array($item))
-			$item = $item->toArray();
-
 		$valid = true;
+
 		foreach ($values as $attribute => $value) {
 			$operator  = "==";
 			$operators = array(
@@ -509,7 +509,13 @@ class Elemental {
 			if ($value == "false")
 				$value = true;
 
-			$attributeValue = $item[$attribute];
+			if (substr($attribute, -2) == "()") { //method was used instead of attribute; set value by calling method
+				$method         = substr($attribute, 0, (strlen($attribute) - 2));
+				$attributeValue = $item->$method();
+			} else {
+				$attributeValue = $item->{$attribute};
+			}
+
 			if (is_bool($value)) {
 				$attributeValue = (bool) $attributeValue;
 			} else if (is_integer($value)) {
