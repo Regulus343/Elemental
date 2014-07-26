@@ -6,8 +6,11 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		last updated on July 17, 2014
+		version 0.3.0
+		last updated on July 25, 2014
 ----------------------------------------------------------------------------------------------------------*/
+
+use Illuminate\Html\HtmlBuilder;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
@@ -15,7 +18,7 @@ use Illuminate\Support\Facades\View;
 
 use Regulus\TetraText\TetraText as Format;
 
-class Elemental {
+class Elemental extends HtmlBuilder {
 
 	/**
 	 * Create an opening tag for an element that has a toggle for being selected. Attributes can
@@ -27,9 +30,9 @@ class Elemental {
 	 * @param  boolean  $active
 	 * @return void
 	 */
-	public static function openActiveArea($element = 'div', $attributes = array(), $active = false)
+	public function openActiveArea($element = 'div', $attributes = array(), $active = false)
 	{
-		return static::openDynamicArea($element, $attributes, $active, 'active');
+		return $this->openDynamicArea($element, $attributes, $active, 'active');
 	}
 
 	/**
@@ -42,9 +45,9 @@ class Elemental {
 	 * @param  boolean  $selected
 	 * @return void
 	 */
-	public static function openSelectedArea($element = 'div', $attributes = array(), $selected = false)
+	public function openSelectedArea($element = 'div', $attributes = array(), $selected = false)
 	{
-		return static::openDynamicArea($element, $attributes, $selected, 'selected');
+		return $this->openDynamicArea($element, $attributes, $selected, 'selected');
 	}
 
 	/**
@@ -57,9 +60,9 @@ class Elemental {
 	 * @param  boolean  $hidden
 	 * @return void
 	 */
-	public static function openHiddenArea($element = 'div', $attributes = array(), $hidden = false)
+	public function openHiddenArea($element = 'div', $attributes = array(), $hidden = false)
 	{
-		return static::openDynamicArea($element, $attributes, $hidden, 'hidden');
+		return $this->openDynamicArea($element, $attributes, $hidden, 'hidden');
 	}
 
 	/**
@@ -72,9 +75,9 @@ class Elemental {
 	 * @param  boolean  $invisible
 	 * @return void
 	 */
-	public static function openInvisibleArea($element = 'div', $attributes = array(), $invisible = false)
+	public function openInvisibleArea($element = 'div', $attributes = array(), $invisible = false)
 	{
-		return static::openDynamicArea($element, $attributes, $invisible, 'invisible');
+		return $this->openDynamicArea($element, $attributes, $invisible, 'invisible');
 	}
 
 	/**
@@ -88,7 +91,7 @@ class Elemental {
 	 * @param  string   $class
 	 * @return void
 	 */
-	public static function openDynamicArea($element = 'div', $attributes = array(), $active = false, $class = 'selected')
+	public function openDynamicArea($element = 'div', $attributes = array(), $active = false, $class = 'selected')
 	{
 		$attributesFormatted = $attributes;
 		if (is_string($attributes)) {
@@ -108,7 +111,7 @@ class Elemental {
 			}
 		}
 
-		return '<'.$element.static::attributes($attributesFormatted).'>' . "\n";
+		return '<'.$element.$this->attributes($attributesFormatted).'>' . "\n";
 	}
 
 	/**
@@ -119,7 +122,7 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function dynamicArea($active = false, $class = 'selected', $inClass = false)
+	public function dynamicArea($active = false, $class = 'selected', $inClass = false)
 	{
 		if ($active) {
 			if ($inClass) {
@@ -138,9 +141,9 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function activeArea($active = false, $inClass = false)
+	public function activeArea($active = false, $inClass = false)
 	{
-		return static::dynamicArea($active, 'active', $inClass);
+		return $this->dynamicArea($active, 'active', $inClass);
 	}
 
 	/**
@@ -150,9 +153,9 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function selectedArea($selected = false, $inClass = false)
+	public function selectedArea($selected = false, $inClass = false)
 	{
-		return static::dynamicArea($selected, 'selected', $inClass);
+		return $this->dynamicArea($selected, 'selected', $inClass);
 	}
 
 	/**
@@ -162,9 +165,9 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function hiddenArea($hidden = false, $inClass = false)
+	public function hiddenArea($hidden = false, $inClass = false)
 	{
-		return static::dynamicArea($hidden, 'hidden', $inClass);
+		return $this->dynamicArea($hidden, 'hidden', $inClass);
 	}
 
 	/**
@@ -174,9 +177,9 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function invisibleArea($invisible = false, $inClass = false)
+	public function invisibleArea($invisible = false, $inClass = false)
 	{
-		return static::dynamicArea($invisible, 'invisible', $inClass);
+		return $this->dynamicArea($invisible, 'invisible', $inClass);
 	}
 
 	/**
@@ -188,7 +191,7 @@ class Elemental {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public static function dynamicAreaOptions($value, $options = array(), $inClass = false)
+	public function dynamicAreaOptions($value, $options = array(), $inClass = false)
 	{
 		if (isset($options[$value])) {
 			if ($inClass) {
@@ -210,7 +213,7 @@ class Elemental {
 	 * @param  boolean  $active
 	 * @return void
 	 */
-	public static function closeArea($element = 'div', $identifier = null)
+	public function closeArea($element = 'div', $identifier = null)
 	{
 		$html = '</'.$element.'>';
 		if ($identifier && is_string($identifier) && $identifier != "") {
@@ -227,7 +230,7 @@ class Elemental {
 	 * @param  boolean  $bodyOnly
 	 * @return void
 	 */
-	public static function table($config, $data = array(), $bodyOnly = false)
+	public function table($config, $data = array(), $bodyOnly = false)
 	{
 		if (!isset($config['table']))   $config['table']   = array();
 		if (!isset($config['columns'])) $config['columns'] = array();
@@ -254,7 +257,7 @@ class Elemental {
 
 			//if label does not contain HTML, covert special characters
 			if ($label == strip_tags($label))
-				$columns[$c]['label'] = static::entities($label);
+				$columns[$c]['label'] = $this->entities($label);
 
 			//format data with "type"
 			if (!isset($columns[$c]['type'])) $columns[$c]['type'] = "";
@@ -320,12 +323,12 @@ class Elemental {
 	 * @param  array    $rowSettings
 	 * @return string
 	 */
-	public static function getTableRowClass($row, $rowSettings = array())
+	public function getTableRowClass($row, $rowSettings = array())
 	{
 		$class = '';
 		if (isset($rowSettings['classModifiers'])) {
 			foreach ($rowSettings['classModifiers'] as $potentialClass => $values) {
-				$valid = static::testAttributeConditions($row, $values);
+				$valid = $this->testAttributeConditions($row, $values);
 				if ($valid) {
 					if ($class != "")
 						$class .= " ";
@@ -344,9 +347,9 @@ class Elemental {
 	 * @param  array    $columnSettings
 	 * @return string
 	 */
-	public static function getTableColumnClass($columnSettings)
+	public function getTableColumnClass($columnSettings)
 	{
-		return static::dynamicArea((isset($columnSettings['class']) && $columnSettings['class'] != ""), $columnSettings['class']);
+		return $this->dynamicArea((isset($columnSettings['class']) && $columnSettings['class'] != ""), $columnSettings['class']);
 	}
 
 	/**
@@ -356,7 +359,7 @@ class Elemental {
 	 * @param  string   $type
 	 * @return mixed
 	 */
-	public static function formatTableCellData($cellData, $type, $typeDetails = false)
+	public function formatTableCellData($cellData, $type, $typeDetails = false)
 	{
 		if ($type != "") {
 			switch (strtolower($type)) {
@@ -389,12 +392,12 @@ class Elemental {
 	 * @param  string   $type
 	 * @return string
 	 */
-	public static function createElement($element, $item)
+	public function createElement($element, $item)
 	{
 		$html = '';
 
 		if (isset($element['conditions']) && is_array($element['conditions'])) {
-			$valid = static::testAttributeConditions($item, $element['conditions']);
+			$valid = $this->testAttributeConditions($item, $element['conditions']);
 
 			if (!$valid) return $html;
 		}
@@ -402,7 +405,7 @@ class Elemental {
 		$class = isset($element['class']) ? $element['class'] : '';
 		if (isset($element['classModifiers'])) {
 			foreach ($element['classModifiers'] as $potentialClass => $values) {
-				$valid = static::testAttributeConditions($item, $values);
+				$valid = $this->testAttributeConditions($item, $values);
 				if ($valid) {
 					if ($class != '') $class .= ' ';
 					$class .= $potentialClass;
@@ -450,7 +453,7 @@ class Elemental {
 			}
 		}
 
-		$html .= '<'.$element['tag'].static::attributes($element['attributes']);
+		$html .= '<'.$element['tag'].$this->attributes($element['attributes']);
 		if (!$selfClosing) $html .= '>';
 
 		if (isset($element['icon']) && $element['icon'] != "")
@@ -482,7 +485,7 @@ class Elemental {
 	 * @param  array   $values
 	 * @return boolean
 	 */
-	public static function testAttributeConditions($item, $values)
+	public function testAttributeConditions($item, $values)
 	{
 		$valid = true;
 
@@ -539,7 +542,7 @@ class Elemental {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function attributes($attributes)
+	public function attributes($attributes)
 	{
 		$html = array();
 
@@ -552,7 +555,7 @@ class Elemental {
 
 			if ( ! is_null($value))
 			{
-				$html[] = $key.'="'.static::entities($value).'"';
+				$html[] = $key.'="'.$this->entities($value).'"';
 			}
 		}
 
@@ -567,7 +570,7 @@ class Elemental {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function entities($value)
+	public function entities($value)
 	{
 		return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
 	}

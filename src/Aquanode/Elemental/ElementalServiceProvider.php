@@ -28,7 +28,9 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['elemental'] = $this->app->share(function($app) {
+			return new Elemental($app['url']);
+		});
 	}
 
 	/**
