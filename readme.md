@@ -36,7 +36,7 @@ Then run `php composer.phar update` from the command line. Composer will install
 
 And add this to the `aliases` array:
 
-	'HTML' => 'Aquanode\Elemental\Elemental',
+	'HTML' => 'Aquanode\Elemental\Facade',
 
 You may use 'Elemental', or another alias, but 'HTML' is recommended for the sake of simplicity. Elemental is now ready to go.
 
