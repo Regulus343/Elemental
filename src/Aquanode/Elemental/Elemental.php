@@ -6,7 +6,7 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		version 0.3.1
+		version 0.3.0
 		last updated on July 26, 2014
 ----------------------------------------------------------------------------------------------------------*/
 

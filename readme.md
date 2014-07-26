@@ -27,7 +27,7 @@ Instead, you will be able to use this simple syntax:
 To install Elemental, make sure "aquanode/elemental" has been added to Laravel 4's `composer.json` file.
 
 	"require": {
-		"aquanode/elemental": "0.3.1"
+		"aquanode/elemental": "0.3.0"
 	},
 
 Then run `php composer.phar update` from the command line. Composer will install the Elemental package. Now, all you have to do is register the service provider and set up Elemental's alias in `app/config/app.php`. Add this to the `providers` array:
