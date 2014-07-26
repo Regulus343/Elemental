@@ -6,8 +6,8 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman / Aquanode - http://aquanode.com
-		version 0.3.0
-		last updated on July 25, 2014
+		version 0.3.1
+		last updated on July 26, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
-use Regulus\TetraText\TetraText as Format;
+use Regulus\TetraText\Facade as Format;
 
 class Elemental extends HtmlBuilder {
 
