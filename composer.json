@@ -1,11 +1,11 @@
 {
-	"name": "aquanode/elemental",
+	"name": "regulus/elemental",
 	"description": "An HTML element building composer package that simplifies creation of active, selected, or hidden elements.",
 	"license": "MIT",
 	"authors": [
 		{
 			"name": "Cody Jassman",
-			"email": "cody@aquanode.com"
+			"email": "me@codyjassman.com"
 		}
 	],
 	"require": {
@@ -18,7 +18,7 @@
 			"src/migrations"
 		],
 		"psr-0": {
-			"Aquanode\\Elemental": "src/"
+			"Regulus\\Elemental": "src/"
 		}
 	},
 	"minimum-stability": "dev"
