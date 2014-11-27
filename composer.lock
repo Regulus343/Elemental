@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "911dbee0f86cf622118e4114ad5ad64e",
+    "hash": "894a3810dafe774e7100bebe096363db",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
-            "version": "dev-master",
+            "version": "v4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "80ebd4322e3b98bc25c3ed3effe99a1653bc00fc"
+                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/80ebd4322e3b98bc25c3ed3effe99a1653bc00fc",
-                "reference": "80ebd4322e3b98bc25c3ed3effe99a1653bc00fc",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/6f389f0f25b90d0b495308efcfa073981177f0fd",
+                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd",
                 "shasum": ""
             },
             "require": {
@@ -49,20 +49,21 @@
             "keywords": [
                 "html"
             ],
-            "time": "2014-02-04 20:17:24"
+            "time": "2013-11-30 08:25:19"
         },
         {
             "name": "illuminate/support",
-            "version": "dev-master",
+            "version": "v4.2.9",
+            "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "feebfd401720f359afed515926e56ee0514fcff8"
+                "reference": "b6716d34afce6e69523725f2534a5c3a54dba964"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/feebfd401720f359afed515926e56ee0514fcff8",
-                "reference": "feebfd401720f359afed515926e56ee0514fcff8",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/b6716d34afce6e69523725f2534a5c3a54dba964",
+                "reference": "b6716d34afce6e69523725f2534a5c3a54dba964",
                 "shasum": ""
             },
             "require": {
@@ -75,15 +76,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Illuminate\\Support\\": ""
+                "psr-0": {
+                    "Illuminate\\Support": ""
                 },
                 "files": [
-                    "helpers.php"
+                    "Illuminate/Support/helpers.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -96,24 +97,24 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "time": "2014-07-24 02:36:36"
+            "time": "2014-09-12 21:42:43"
         },
         {
             "name": "regulus/tetra-text",
-            "version": "dev-master",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Regulus343/TetraText.git",
-                "reference": "60d0e232dae40cc6ea2a776b9950d087ca2cb517"
+                "reference": "a518dba10a08b3007d1aa5c820cb71ad9a2ed665"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/60d0e232dae40cc6ea2a776b9950d087ca2cb517",
-                "reference": "60d0e232dae40cc6ea2a776b9950d087ca2cb517",
+                "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/a518dba10a08b3007d1aa5c820cb71ad9a2ed665",
+                "reference": "a518dba10a08b3007d1aa5c820cb71ad9a2ed665",
                 "shasum": ""
             },
             "require": {
-                "ezyang/htmlpurifier": "dev-master",
+                "ezyang/htmlpurifier": "4.6.*",
                 "illuminate/support": "4.x",
                 "php": ">=5.3.0"
             },
@@ -137,24 +138,16 @@
                 }
             ],
             "description": "A small text/string formatting composer package that formats phone numbers, numeric values, money values and more.",
-            "time": "2014-01-06 00:10:43"
+            "time": "2014-11-27 06:02:50"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "regulus/tetra-text": 20
-    },
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
