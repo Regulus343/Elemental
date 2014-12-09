@@ -262,10 +262,6 @@ class Elemental extends HtmlBuilder {
 			//format data with "type"
 			if (!isset($columns[$c]['type'])) $columns[$c]['type'] = "";
 
-			//format "method" if necessary
-			if (isset($columns[$c]['method']))
-				$columns[$c]['method'] = str_replace('()', '', $columns[$c]['method']);
-
 			//make header cell class and body cell class blank if they are not set
 			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
 			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = $columns[$c]['class'];
@@ -383,6 +379,22 @@ class Elemental extends HtmlBuilder {
 			}
 		}
 		return $cellData;
+	}
+
+	/**
+	 * Get the result of a method for an object.
+	 *
+	 * @param  object   $object
+	 * @param  string   $method
+	 * @return mixed
+	 */
+	public function getMethodResult($object, $method)
+	{
+		$method = Format::getMethodFromString($method);
+		if (is_null($method))
+			return $method;
+
+		return call_user_func_array([$object, $method['name']], $method['parameters']);
 	}
 
 	/**
