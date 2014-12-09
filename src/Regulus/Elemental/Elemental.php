@@ -6,8 +6,8 @@
 		active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.3.1
-		last updated on November 26, 2014
+		version 0.3.3
+		last updated on December 8, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
