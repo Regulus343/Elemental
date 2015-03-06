@@ -1,19 +1,21 @@
 Elemental
 =========
 
-**An HTML element building composer package that simplifies creation of active, selected, or hidden elements.**
+**An HTML element building composer package for Laravel 5 that simplifies creation of active, selected, or hidden elements.**
+
+> **Note:** For Laravel 4, you may use <a href="https://github.com/Regulus343/Elemental/tree/v0.3.3">version 0.3.3</a>.
 
 Elemental is a simple HTML element creation library, primarily for creating dynamic elements (such as "active", "selected", or "hidden" classed elements that depend on a certain variable as their trigger).
 
 Elemental removes the need for you do to things like this in your markup:
 
-	<div id="content"<?php if (isset($contentHidden)) echo ' class="hidden"'; ?>>
+	<div id="content"<?php if ($contentHidden) echo ' class="hidden"'; ?>>
 		...
 	</div><!-- /#content -->
 
 Instead, you will be able to use this simple syntax:
 
-	<?php echo HTML::openHiddenArea('div', '#content', isset($contentHidden)); ?>
+	<?php echo HTML::openHiddenArea('div', '#content', $contentHidden); ?>
 		...
 	<?php echo HTML::closeArea('div', '#content'); ?>
 
@@ -24,13 +26,13 @@ Instead, you will be able to use this simple syntax:
 <a name="installation"></a>
 ## Installation
 
-To install Elemental, make sure `regulus/elemental` has been added to Laravel 4's `composer.json` file.
+To install Elemental, make sure `regulus/elemental` has been added to Laravel 5's `composer.json` file.
 
 	"require": {
-		"regulus/elemental": "0.3.3"
+		"regulus/elemental": "dev-master"
 	},
 
-Then run `php composer.phar update` from the command line. Composer will install the Elemental package. Now, all you have to do is register the service provider and set up Elemental's alias in `app/config/app.php`. Add this to the `providers` array:
+Then run `php composer.phar update` from the command line. Composer will install the Elemental package. Now, all you have to do is register the service provider and set up Elemental's alias in `config/app.php`. Add this to the `providers` array:
 
 	'Regulus\Elemental\ElementalServiceProvider',
 
@@ -224,4 +226,4 @@ You may use Elemental to create data table markup including formatted headings, 
 	//echo table body only, which is useful for returning an updated body by AJAX to replace the existing <tbody> element
 	echo HTML::table($usersTable, $users, true);
 
-This example is taken from the <a href="https://github.com/Regulus343/Fractal">Fractal</a> Laravel 4 CMS package which has many good examples of Elemental's table function in full use. Fractal contains use cases of both the originally rendered table, and rendered table bodies that are returned to the page via AJAX and update the table data based on the results of a search function.
+This example is taken from the <a href="https://github.com/Regulus343/Fractal">Fractal</a> Laravel 5 CMS package which has many good examples of Elemental's table function in full use. Fractal contains use cases of both the originally rendered table, and rendered table bodies that are returned to the page via AJAX and update the table data based on the results of a search function.

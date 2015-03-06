@@ -18,7 +18,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('regulus/elemental');
+		//
 	}
 
 	/**
@@ -28,8 +28,9 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['elemental'] = $this->app->share(function($app) {
-			return new Elemental($app['url']);
+		$this->app->singleton('Regulus\Elemental\Elemental', function()
+		{
+			return new Elemental;
 		});
 	}
 
@@ -40,7 +41,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return [];
 	}
 
 }

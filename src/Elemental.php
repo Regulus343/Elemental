@@ -2,23 +2,19 @@
 
 /*----------------------------------------------------------------------------------------------------------
 	Elemental
-		An HTML element building composer package that simplifies creation of
-		active, selected, or hidden elements.
+		An HTML element building composer package for Laravel 5 that simplifies
+		creation of active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.3.3
-		last updated on December 8, 2014
+		version 0.5.0
+		last updated on March 5, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
-use Illuminate\Html\HtmlBuilder;
-
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 use Regulus\TetraText\Facade as Format;
 
-class Elemental extends HtmlBuilder {
+class Elemental {
 
 	/**
 	 * Create an opening tag for an element that has a toggle for being selected. Attributes can
@@ -30,7 +26,7 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $active
 	 * @return void
 	 */
-	public function openActiveArea($element = 'div', $attributes = array(), $active = false)
+	public function openActiveArea($element = 'div', $attributes = [], $active = false)
 	{
 		return $this->openDynamicArea($element, $attributes, $active, 'active');
 	}
@@ -45,7 +41,7 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $selected
 	 * @return void
 	 */
-	public function openSelectedArea($element = 'div', $attributes = array(), $selected = false)
+	public function openSelectedArea($element = 'div', $attributes = [], $selected = false)
 	{
 		return $this->openDynamicArea($element, $attributes, $selected, 'selected');
 	}
@@ -60,7 +56,7 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $hidden
 	 * @return void
 	 */
-	public function openHiddenArea($element = 'div', $attributes = array(), $hidden = false)
+	public function openHiddenArea($element = 'div', $attributes = [], $hidden = false)
 	{
 		return $this->openDynamicArea($element, $attributes, $hidden, 'hidden');
 	}
@@ -75,7 +71,7 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $invisible
 	 * @return void
 	 */
-	public function openInvisibleArea($element = 'div', $attributes = array(), $invisible = false)
+	public function openInvisibleArea($element = 'div', $attributes = [], $invisible = false)
 	{
 		return $this->openDynamicArea($element, $attributes, $invisible, 'invisible');
 	}
@@ -91,24 +87,27 @@ class Elemental extends HtmlBuilder {
 	 * @param  string   $class
 	 * @return void
 	 */
-	public function openDynamicArea($element = 'div', $attributes = array(), $active = false, $class = 'selected')
+	public function openDynamicArea($element = 'div', $attributes = [], $active = false, $class = 'selected')
 	{
 		$attributesFormatted = $attributes;
-		if (is_string($attributes)) {
-			if (substr($attributes, 0, 1) == ".") {
-				$attributesFormatted = array('class' => substr($attributes, 1));
-			} else if (substr($attributes, 0, 1) == "#") {
-				$attributesFormatted = array('id' => substr($attributes, 1));
-			}
-		}
-		if (!is_array($attributesFormatted)) $attributesFormatted = array();
 
-		if ($active) {
-			if (isset($attributesFormatted['class']) && $attributesFormatted['class'] != "") {
+		if (is_string($attributes))
+		{
+			if (substr($attributes, 0, 1) == ".")
+				$attributesFormatted = ['class' => substr($attributes, 1)];
+			else if (substr($attributes, 0, 1) == "#")
+				$attributesFormatted = ['id' => substr($attributes, 1)];
+		}
+
+		if (!is_array($attributesFormatted))
+			$attributesFormatted = [];
+
+		if ($active)
+		{
+			if (isset($attributesFormatted['class']) && $attributesFormatted['class'] != "")
 				$attributesFormatted['class'] .= ' '.$class;
-			} else {
+			else
 				$attributesFormatted['class'] = $class;
-			}
 		}
 
 		return '<'.$element.$this->attributes($attributesFormatted).'>' . "\n";
@@ -124,14 +123,15 @@ class Elemental extends HtmlBuilder {
 	 */
 	public function dynamicArea($active = false, $class = 'selected', $inClass = false)
 	{
-		if ($active) {
-			if ($inClass) {
+		if ($active)
+		{
+			if ($inClass)
 				return ' '.$class;
-			} else {
+			else
 				return ' class="'.$class.'"';
-			}
 		}
-		return '';
+
+		return null;
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $inClass
 	 * @return void
 	 */
-	public function dynamicAreaOptions($value, $options = array(), $inClass = false)
+	public function dynamicAreaOptions($value, $options = [], $inClass = false)
 	{
 		if (isset($options[$value])) {
 			if ($inClass) {
@@ -216,9 +216,10 @@ class Elemental extends HtmlBuilder {
 	public function closeArea($element = 'div', $identifier = null)
 	{
 		$html = '</'.$element.'>';
-		if ($identifier && is_string($identifier) && $identifier != "") {
+
+		if ($identifier && is_string($identifier) && $identifier != "")
 			$html .= '<!-- /'.$identifier.' -->' . "\n";
-		}
+
 		return $html;
 	}
 
@@ -230,11 +231,11 @@ class Elemental extends HtmlBuilder {
 	 * @param  boolean  $bodyOnly
 	 * @return void
 	 */
-	public function table($config, $data = array(), $bodyOnly = false)
+	public function table($config, $data = [], $bodyOnly = false)
 	{
-		if (!isset($config['table']))   $config['table']   = array();
-		if (!isset($config['columns'])) $config['columns'] = array();
-		if (!isset($config['rows']))    $config['rows']    = array();
+		if (!isset($config['table']))   $config['table']   = [];
+		if (!isset($config['columns'])) $config['columns'] = [];
+		if (!isset($config['rows']))    $config['rows']    = [];
 
 		$table   = $config['table'];
 		$columns = $config['columns'];
@@ -243,13 +244,19 @@ class Elemental extends HtmlBuilder {
 		$footer  = false;
 		if (isset($config['footer']) && $config['footer']) $footer = true;
 
-		for ($c = 0; $c < count($columns); $c++) {
+		for ($c = 0; $c < count($columns); $c++)
+		{
 			//set column label from attribute if label is not set
-			if (!isset($columns[$c]['label'])) {
+			if (!isset($columns[$c]['label']))
+			{
 				$label = "";
-				if (isset($columns[$c]['attribute'])) $label = $columns[$c]['attribute'];
 
-				if ($label == "id") $label = strtoupper($label);
+				if (isset($columns[$c]['attribute']))
+					$label = $columns[$c]['attribute'];
+
+				if ($label == "id")
+					$label = strtoupper($label);
+
 				$label = ucwords(str_replace('_', ' ', $label));
 			} else {
 				$label = $columns[$c]['label'];
@@ -260,24 +267,30 @@ class Elemental extends HtmlBuilder {
 				$columns[$c]['label'] = $this->entities($label);
 
 			//format data with "type"
-			if (!isset($columns[$c]['type'])) $columns[$c]['type'] = "";
+			if (!isset($columns[$c]['type']))
+				$columns[$c]['type'] = "";
 
 			//make header cell class and body cell class blank if they are not set
-			if (!isset($columns[$c]['class']))       $columns[$c]['class'] = "";
-			if (!isset($columns[$c]['headerClass'])) $columns[$c]['headerClass'] = $columns[$c]['class'];
+			if (!isset($columns[$c]['class']))
+				$columns[$c]['class'] = "";
+
+			if (!isset($columns[$c]['headerClass']))
+				$columns[$c]['headerClass'] = $columns[$c]['class'];
 
 			//set body cell class if it is specifically set
 			if (isset($columns[$c]['bodyClass']) && $columns[$c]['bodyClass'] != "")
 				$columns[$c]['class'] = $columns[$c]['bodyClass'];
 
 			//if the first column is the "id" attribute, automatically add a class
-			if (isset($columns[$c]['attribute']) && $columns[$c]['attribute'] == "id" && $c == 0) {
+			if (isset($columns[$c]['attribute']) && $columns[$c]['attribute'] == "id" && $c == 0)
+			{
 				$idClass = "id-attribute";
 				$columns[$c]['class'] = ($columns[$c]['class'] != "") ? $columns[$c]['class'].' '.$idClass : $idClass;
 			}
 
 			//add header data-sort-field attribute if "sort" is set
-			if (isset($columns[$c]['sort']) && (($columns[$c]['sort'] && isset($columns[$c]['attribute'])) || $columns[$c]['sort'] != "")) {
+			if (isset($columns[$c]['sort']) && (($columns[$c]['sort'] && isset($columns[$c]['attribute'])) || $columns[$c]['sort'] != ""))
+			{
 				if (is_bool($columns[$c]['sort']) && $columns[$c]['sort'] && isset($columns[$c]['attribute']))
 					$columns[$c]['sortAttribute'] = ' data-sort-field="'.$columns[$c]['attribute'].'"';
 				else
@@ -291,11 +304,14 @@ class Elemental extends HtmlBuilder {
 				$columns[$c]['developer'] = false;
 
 			//check if footer is set through columns array
-			if (isset($column['footer'])) $footer = true;
+			if (isset($column['footer']))
+				$footer = true;
 		}
 
 		//set ID prefix for table row IDs
-		if (!isset($rows['idPrefix'])) $rows['idPrefix'] = "item";
+		if (!isset($rows['idPrefix']))
+			$rows['idPrefix'] = "item";
+
 		$rows['idPrefix'] .= '-';
 
 		if ($bodyOnly)
@@ -319,13 +335,18 @@ class Elemental extends HtmlBuilder {
 	 * @param  array    $rowSettings
 	 * @return string
 	 */
-	public function getTableRowClass($row, $rowSettings = array())
+	public function getTableRowClass($row, $rowSettings = [])
 	{
 		$class = '';
-		if (isset($rowSettings['classModifiers'])) {
-			foreach ($rowSettings['classModifiers'] as $potentialClass => $values) {
+
+		if (isset($rowSettings['classModifiers']))
+		{
+			foreach ($rowSettings['classModifiers'] as $potentialClass => $values)
+			{
 				$valid = $this->testAttributeConditions($row, $values);
-				if ($valid) {
+
+				if ($valid)
+				{
 					if ($class != "")
 						$class .= " ";
 
@@ -357,10 +378,12 @@ class Elemental extends HtmlBuilder {
 	 */
 	public function formatTableCellData($cellData, $type, $typeDetails = false)
 	{
-		if ($type != "") {
-			switch (strtolower($type)) {
-				case "date":     $cellData = Format::date($cellData, Config::get('elemental::dateFormat')); break;
-				case "datetime": $cellData = Format::date($cellData, Config::get('elemental::dateTimeFormat')); break;
+		if ($type != "")
+		{
+			switch (strtolower($type))
+			{
+				case "date":     $cellData = Format::date($cellData);  break;
+				case "datetime": $cellData = Format::date($cellData);  break;
 				case "money":    $cellData = Format::money($cellData); break;
 				case "phone":    $cellData = Format::phone($cellData); break;
 				case "boolean":
@@ -378,6 +401,7 @@ class Elemental extends HtmlBuilder {
 					break;
 			}
 		}
+
 		return $cellData;
 	}
 
@@ -408,18 +432,27 @@ class Elemental extends HtmlBuilder {
 	{
 		$html = '';
 
-		if (isset($element['conditions']) && is_array($element['conditions'])) {
+		if (isset($element['conditions']) && is_array($element['conditions']))
+		{
 			$valid = $this->testAttributeConditions($item, $element['conditions']);
 
-			if (!$valid) return $html;
+			if (!$valid)
+				return $html;
 		}
 
 		$class = isset($element['class']) ? $element['class'] : '';
-		if (isset($element['classModifiers'])) {
-			foreach ($element['classModifiers'] as $potentialClass => $values) {
+
+		if (isset($element['classModifiers']))
+		{
+			foreach ($element['classModifiers'] as $potentialClass => $values)
+			{
 				$valid = $this->testAttributeConditions($item, $values);
-				if ($valid) {
-					if ($class != '') $class .= ' ';
+
+				if ($valid)
+				{
+					if ($class != '')
+						$class .= ' ';
+
 					$class .= $potentialClass;
 				}
 			}
@@ -432,32 +465,34 @@ class Elemental extends HtmlBuilder {
 			$element['tag'] = "a";
 
 		if (!isset($element['attributes']))
-			$element['attributes'] = array();
+			$element['attributes'] = [];
 
 		if (isset($element['class']))
 			$element['attributes']['class'] = $element['class'];
 
-		if (isset($element['selfClosing']) && $element['selfClosing']) {
+		if (isset($element['selfClosing']) && $element['selfClosing'])
 			$selfClosing = true;
-		} else {
+		else
 			$selfClosing = false;
-		}
 
 		if (isset($element['url']) && !isset($element['href']))
 			$element['href'] = $element['url'];
 
-		if ($element['tag'] == "a") {
+		if ($element['tag'] == "a")
+		{
 			$element['attributes']['href'] = "";
-			if (isset($element['uri'])) {
-				$element['attributes']['href'] = URL::to($element['uri']);
-			} else if (isset($element['href']) && $element['href'] != "") {
+
+			if (isset($element['uri']))
+				$element['attributes']['href'] = url($element['uri']);
+			else if (isset($element['href']) && $element['href'] != "")
 				$element['attributes']['href'] = $element['href'];
-			}
 		}
 
 		//add data to attributes where necessary
-		foreach ($element['attributes'] as $attribute => $value) {
-			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match)) {
+		foreach ($element['attributes'] as $attribute => $value)
+		{
+			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match))
+			{
 				$segments    = explode('/', $match[1]);
 				$segments[0] = isset($item[$segments[0]]) ? $item[$segments[0]] : '';
 
@@ -466,26 +501,30 @@ class Elemental extends HtmlBuilder {
 		}
 
 		$html .= '<'.$element['tag'].$this->attributes($element['attributes']);
-		if (!$selfClosing) $html .= '>';
+
+		if (!$selfClosing)
+			$html .= '>';
 
 		if (isset($element['icon']) && $element['icon'] != "")
 			$html .= '<span class="glyphicon glyphicon-'.trim($element['icon']).'"></span>';
 
-		if (isset($element['text']) && $element['text'] != "") {
-			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match)) {
+		if (isset($element['text']) && $element['text'] != "")
+		{
+			if (preg_match("/\:([a-zA-Z\_].*)/", $value, $match))
+			{
 				$segments    = explode('/', $match[1]);
 				$segments[0] = isset($item[$segments[0]]) ? $item[$segments[0]] : '';
 
 				$element['text'] = str_replace($match[0], implode('/', $segments), $element['text']);
 			}
+
 			$html .= $element['text'];
 		}
 
-		if ($selfClosing) {
+		if ($selfClosing)
 			$html .= ' />';
-		} else {
+		else
 			$html .= '</'.$element['tag'].'>';
-		}
 
 		return $html;
 	}
@@ -501,19 +540,24 @@ class Elemental extends HtmlBuilder {
 	{
 		$valid = true;
 
-		foreach ($values as $attribute => $value) {
-			$operator  = "==";
-			$operators = array(
+		foreach ($values as $attribute => $value)
+		{
+			$operator = "==";
+
+			$operators = [
 				'==',
 				'!=',
 				'<',
 				'<=',
 				'>',
 				'>=',
-			);
-			foreach ($operators as $operatorListed) {
-				if (substr($value, 0, strlen($operatorListed)) == $operatorListed) {
-					$value = trim(substr($value, strlen($operatorListed)));
+			];
+
+			foreach ($operators as $operatorListed)
+			{
+				if (substr($value, 0, strlen($operatorListed)) == $operatorListed)
+				{
+					$value    = trim(substr($value, strlen($operatorListed)));
 					$operator = $operatorListed;
 				}
 			}
@@ -524,18 +568,19 @@ class Elemental extends HtmlBuilder {
 			if ($value == "false")
 				$value = true;
 
-			if (substr($attribute, -2) == "()") { //method was used instead of attribute; set value by calling method
+			//method was used instead of attribute; set value by calling method
+			if (substr($attribute, -2) == "()")
+			{
 				$method         = substr($attribute, 0, (strlen($attribute) - 2));
 				$attributeValue = $item->$method();
 			} else {
 				$attributeValue = $item->{$attribute};
 			}
 
-			if (is_bool($value)) {
+			if (is_bool($value))
 				$attributeValue = (bool) $attributeValue;
-			} else if (is_integer($value)) {
+			else if (is_integer($value))
 				$attributeValue = (int)  $attributeValue;
-			}
 
 			if ($operator == "==" && $attributeValue != $value) $valid = false;
 			if ($operator == "!=" && $attributeValue == $value) $valid = false;
@@ -556,16 +601,17 @@ class Elemental extends HtmlBuilder {
 	 */
 	public function attributes($attributes)
 	{
-		$html = array();
+		$html = [];
 
 		foreach ((array) $attributes as $key => $value)
 		{
-			// For numeric keys, we will assume that the key and the value are the
-			// same, as this will convert HTML attributes such as "required" that
-			// may be specified as required="required", etc.
-			if (is_numeric($key)) $key = $value;
+			//for numeric keys, we will assume that the key and the value are the
+			//same, as this will convert HTML attributes such as "required" that
+			//may be specified as required="required", etc.
+			if (is_numeric($key))
+				$key = $value;
 
-			if ( ! is_null($value))
+			if (!is_null($value))
 			{
 				$html[] = $key.'="'.$this->entities($value).'"';
 			}
@@ -585,6 +631,17 @@ class Elemental extends HtmlBuilder {
 	public function entities($value)
 	{
 		return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+	}
+
+	/**
+	 * Convert entities to HTML characters.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public function decode($value)
+	{
+		return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
 	}
 
 }

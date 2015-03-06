@@ -1,6 +1,6 @@
 {
 	"name": "regulus/elemental",
-	"description": "An HTML element building composer package that simplifies creation of active, selected, or hidden elements.",
+	"description": "An HTML element building composer package for Laravel 5 that simplifies creation of active, selected, or hidden elements.",
 	"license": "MIT",
 	"authors": [
 		{
@@ -9,16 +9,12 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.0",
-		"illuminate/support": "4.x",
-		"regulus/tetra-text": "0.4.4"
+		"php": ">=5.4.0",
+		"laravel/framework": "5.0.*"
 	},
 	"autoload": {
-		"classmap": [
-			"src/migrations"
-		],
-		"psr-0": {
-			"Regulus\\Elemental": "src/"
+		"psr-4": {
+			"Regulus\\Elemental\\": "src/"
 		}
 	},
 	"minimum-stability": "stable"

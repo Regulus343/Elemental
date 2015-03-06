@@ -2,6 +2,6 @@
 
 class Facade extends \Illuminate\Support\Facades\Facade {
 
-	protected static function getFacadeAccessor() { return 'elemental'; }
+	protected static function getFacadeAccessor() { return 'Regulus\Elemental\Elemental'; }
 
 }

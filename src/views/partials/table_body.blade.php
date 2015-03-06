@@ -11,13 +11,17 @@
 					@if (isset($column['method']))
 
 						@if (isset($column['attribute']) && $column['type'] == "list")
+
 							<td{{ Elemental::getTableColumnClass($column) }}>
-								{{ Format::arrayToStringList(Format::objectItemsToArray($row->{Format::getMethodNameFromString($column['method'])}, $column['attribute'])) }}
+								{!! Format::arrayToStringList(Format::objectItemsToArray($row->{Format::getMethodNameFromString($column['method'])}, $column['attribute'])) !!}
 							</td>
+
 						@else
+
 							<td{{ Elemental::getTableColumnClass($column) }}>
-								{{ Elemental::formatTableCellData(Elemental::getMethodResult($row, $column['method']), $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) }}
+								{!! Elemental::formatTableCellData(Elemental::getMethodResult($row, $column['method']), $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
 							</td>
+
 						@endif
 
 					@elseif (isset($column['attribute']))
@@ -25,7 +29,7 @@
 							@if ($dataCol == $column['attribute'])
 
 								<td{{ Elemental::getTableColumnClass($column) }}>
-									{{ Elemental::formatTableCellData($dataCell, $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) }}
+									{!! Elemental::formatTableCellData($dataCell, $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
 								</td>
 
 							@endif
@@ -35,7 +39,7 @@
 							@if (isset($column['elements']) && !empty($column['elements']))
 								@foreach ($column['elements'] as $element)
 
-									{{ Elemental::createElement($element, $row) }}
+									{!! Elemental::createElement($element, $row) !!}
 
 								@endforeach
 							@else
