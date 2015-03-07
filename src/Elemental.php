@@ -259,12 +259,33 @@ class Elemental extends HtmlBuilder {
 		if (!isset($config['columns'])) $config['columns'] = [];
 		if (!isset($config['rows']))    $config['rows']    = [];
 
+		//allow snakecase for variables in case table config is passed from a snakecased config file
+		if (!isset($config['table']['noDataMessage']) && isset($config['table']['no_data_message']))
+		{
+			$config['table']['noDataMessage'] = $config['table']['no_data_message'];
+			unset($config['table']['no_data_message']);
+		}
+
+		if (!isset($config['rows']['idPrefix']) && isset($config['rows']['id_prefix']))
+		{
+			$config['rows']['idPrefix'] = $config['rows']['id_prefix'];
+			unset($config['rows']['id_prefix']);
+		}
+
+		if (!isset($config['rows']['classModifiers']) && isset($config['rows']['class_modifiers']))
+		{
+			$config['rows']['classModifiers'] = $config['rows']['class_modifiers'];
+			unset($config['rows']['class_modifiers']);
+		}
+
 		$table   = $config['table'];
 		$columns = $config['columns'];
 		$rows    = $config['rows'];
 
+		//turn the footer on/off
 		$footer  = false;
-		if (isset($config['footer']) && $config['footer']) $footer = true;
+		if (isset($config['footer']) && $config['footer'])
+			$footer = true;
 
 		for ($c = 0; $c < count($columns); $c++)
 		{
@@ -297,9 +318,15 @@ class Elemental extends HtmlBuilder {
 				$columns[$c]['class'] = "";
 
 			if (!isset($columns[$c]['headerClass']))
-				$columns[$c]['headerClass'] = $columns[$c]['class'];
+				$columns[$c]['headerClass'] = isset($columns[$c]['header_class']) ? $columns[$c]['header_class'] : $columns[$c]['class'];
 
 			//set body cell class if it is specifically set
+			if (!isset($columns[$c]['bodyClass']) && isset($columns[$c]['body_class']))
+			{
+				$columns[$c]['bodyClass'] = $columns[$c]['body_class'];
+				unset($columns[$c]['body_class']);
+			}
+
 			if (isset($columns[$c]['bodyClass']) && $columns[$c]['bodyClass'] != "")
 				$columns[$c]['class'] = $columns[$c]['bodyClass'];
 

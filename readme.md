@@ -48,7 +48,7 @@ You may use 'Elemental', or another alias, but 'HTML' is recommended for the sak
 **Creating a dynamic element that may have a "hidden" class:**
 
 	//create opening tag entirely with Elemental
-	echo HTML::openHiddenArea('div', array('id' => 'side-content', 'class' => 'content'), isset($sideContentHidden));
+	echo HTML::openHiddenArea('div', ['id' => 'side-content', 'class' => 'content'], isset($sideContentHidden));
 
 	{{-- set the hidden class depending on a boolean value within the opening tag --}}
 	<div id="side-content"<?=HTML::hiddenArea(isset($sideContentHidden))?>>
@@ -83,142 +83,142 @@ The above code outputs this:
 
 You may use Elemental to create data table markup including formatted headings, table body cells, icons, and much more. The best way to explain how this functions is by using an example that takes advantage of the majority of the `table()` method's features:
 
-	$usersTable = array(
-		'table' => array(
+	$usersTable = [
+		'table' => [
 			'class'         => 'table-striped table-bordered table-hover table-sortable',
-			'noDataMessage' => Lang::get('fractal::messages.noItems', array('items' => Str::plural(Lang::get('fractal::labels.user')))),
-		),
-		'columns' => array(
-			array(
+			'noDataMessage' => trans('fractal::messages.no_items', ['items' => Str::plural(trans('fractal::labels.user'))]),
+		],
+		'columns' => [
+			[
 				'attribute' => 'id',
 				'sort'      => true,
-			),
-			array(
+			],
+			[
 				'attribute' => 'username',
 				'class'     => 'username',
 				'sort'      => true,
-			),
-			array(
+			],
+			[
 				'attribute' => 'name',
 				'method'    => 'getName()',
 				'sort'      => 'last_name',
-			),
-			array(
+			],
+			[
 				'label'     => 'Email',
-				'elements'  => array(
-					array(
+				'elements'  => [
+					[
 						'text' => ':email',
 						'href' => 'mailto::email',
-					),
-				),
+					],
+				],
 				'sort'      => 'email',
-			),
-			array(
+			],
+			[
 				'label'     => 'Role(s)',
 				'method'    => 'roles()',
 				'attribute' => 'name',
 				'type'      => 'list',
-			),
-			array(
+			],
+			[
 				'label'     => 'Activated',
 				'method'    => 'isActivated()',
 				'type'      => 'boolean',
 				'sort'      => true,
-			),
-			array(
+			],
+			[
 				'label'     => 'Banned',
 				'method'    => 'isBanned()',
 				'type'      => 'boolean',
 				'class'     => 'banned',
 				'sort'      => true,
-			),
-			array(
+			],
+			[
 				'label'     => 'Last Updated',
 				'attribute' => 'updated_at',
 				'type'      => 'dateTime',
 				'sort'      => true,
-			),
-			array(
+			],
+			[
 				'label'     => 'Actions',
 				'class'     => 'actions',
-				'elements'  => array(
-					array(
+				'elements'  => [
+					[
 						'icon'       => 'edit',
-						'uri'        => Config::get('fractal::baseUri').'/users/:username/edit',
-						'attributes' => array(
-							'title'        => Lang::get('fractal::labels.editUser'),
-						),
-					),
-					array(
+						'uri'        => config('cms.base_uri').'/users/:username/edit',
+						'attributes' => [
+							'title' => trans('fractal::labels.edit_user'),
+						],
+					],
+					[
 						'icon'           => 'ban-circle',
 						'class'          => 'action-item ban-user red',
-						'classModifiers' => array(
-							'hidden' => array(
+						'classModifiers' => [
+							'hidden' => [
 								'isBanned()' => true,
-							),
-							'invisible' => array(
+							],
+							'invisible' => [
 								'id' => 1,
-							),
-						),
-						'attributes'     => array(
+							],
+						],
+						'attributes' => [
 							'data-item-id'         => ':id',
 							'data-item-name'       => ':username',
 							'data-action-function' => 'actionBanUser',
 							'data-action-message'  => 'confirmBanUser',
-							'title'                => Lang::get('fractal::labels.banUser'),
-						),
-					),
-					array(
+							'title'                => trans('fractal::labels.ban_user'),
+						],
+					],
+					[
 						'icon'           => 'ok-circle',
 						'class'          => 'action-item unban-user',
-						'classModifiers' => array(
-							'hidden'       => array(
+						'classModifiers' => [
+							'hidden' => [
 								'isBanned()' => false,
-							),
-							'invisible'    => array(
+							],
+							'invisible' => [
 								'id' => 1,
-							),
-						),
-						'attributes'     => array(
+							],
+						],
+						'attributes' => [
 							'data-item-id'         => ':id',
 							'data-item-name'       => ':username',
 							'data-action-function' => 'actionUnbanUser',
 							'data-action-message'  => 'confirmUnbanUser',
-							'title'                => Lang::get('fractal::labels.unbanUser'),
-						),
-					),
-					array(
+							'title'                => trans('fractal::labels.unban_user'),
+						],
+					],
+					[
 						'icon'           => 'remove',
 						'class'          => 'action-item red',
-						'classModifiers' => array(
-							'invisible'    => array(
+						'classModifiers' => [
+							'invisible'    => [
 								'id' => 1,
-							),
-						),
-						'attributes'     => array(
+							],
+						],
+						'attributes'     => [
 							'data-item-id'        => ':id',
 							'data-item-name'      => ':username',
 							'data-action'         => 'delete',
 							'data-action-type'    => 'delete',
 							'data-action-message' => 'confirmDelete',
-							'title'               => Lang::get('fractal::labels.deleteUser'),
-						),
-					),
-				),
-			),
-		),
-		'rows' => array(
+							'title'               => trans('fractal::labels.delete_user'),
+						],
+					],
+				],
+			],
+		],
+		'rows' => [
 			'idPrefix'       => 'user',
-			'classModifiers' => array(
-				'warning' => array(
+			'classModifiers' => [
+				'warning' => [
 					'isActivated()' => false,
-				),
-				'danger' => array(
-					'isBanned()'    => true,
-				),
-			),
-		),
-	);
+				],
+				'danger' => [
+					'isBanned()' => true,
+				],
+			],
+		],
+	];
 
 	//echo full table markup including headings
 	echo HTML::table($usersTable, $users);
