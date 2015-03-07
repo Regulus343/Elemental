@@ -7,14 +7,36 @@
 
 		created by Cody Jassman
 		version 0.5.0
-		last updated on March 5, 2014
+		last updated on March 7, 2014
 ----------------------------------------------------------------------------------------------------------*/
+
+use Illuminate\Html\HtmlBuilder;
+
+use Illuminate\Routing\UrlGenerator;
 
 use Illuminate\Support\Facades\View;
 
 use Regulus\TetraText\Facade as Format;
 
-class Elemental {
+class Elemental extends HtmlBuilder {
+
+	/**
+	 * The URL generator instance.
+	 *
+	 * @var \Illuminate\Routing\UrlGenerator
+	 */
+	protected $url;
+
+	/**
+	 * Create a new HTML builder instance.
+	 *
+	 * @param  \Illuminate\Routing\UrlGenerator  $url
+	 * @return void
+	 */
+	public function __construct(UrlGenerator $url = null)
+	{
+		$this->url = $url;
+	}
 
 	/**
 	 * Create an opening tag for an element that has a toggle for being selected. Attributes can
@@ -618,30 +640,6 @@ class Elemental {
 		}
 
 		return (count($html) > 0) ? ' '.implode(' ', $html) : '';
-	}
-
-	/**
-	 * Convert HTML characters to entities.
-	 *
-	 * The encoding specified in the application configuration file will be used.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public function entities($value)
-	{
-		return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
-	}
-
-	/**
-	 * Convert entities to HTML characters.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public function decode($value)
-	{
-		return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
 	}
 
 }

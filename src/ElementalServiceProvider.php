@@ -9,7 +9,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Bootstrap the application events.
@@ -28,9 +28,9 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->singleton('Regulus\Elemental\Elemental', function()
+		$this->app->singleton('Regulus\Elemental\Elemental', function($app)
 		{
-			return new Elemental;
+			return new Elemental($app['url']);
 		});
 	}
 
@@ -41,7 +41,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return [];
+		return ['elemental'];
 	}
 
 }
