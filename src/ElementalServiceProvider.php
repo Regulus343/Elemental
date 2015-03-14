@@ -18,7 +18,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		$this->loadViewsFrom(__DIR__.'/views', 'elemental');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['elemental'];
+		return ['Regulus\Elemental\Elemental'];
 	}
 
 }

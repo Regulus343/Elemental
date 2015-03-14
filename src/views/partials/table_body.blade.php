@@ -1,7 +1,8 @@
 {{-- Data Table - Body --}}
+
 @if (count($data))
 	@foreach ($data as $row)
-		<tr id="{{ $rows['idPrefix'].$row->id }}"{{ Elemental::getTableRowClass($row, $rows) }}>
+		<tr id="{{ $rows['idPrefix'].$row->id }}"{{ HTML::getTableRowClass($row, $rows) }}>
 
 			<?php $rowArray = $row->toArray(); ?>
 
@@ -12,40 +13,44 @@
 
 						@if (isset($column['attribute']) && $column['type'] == "list")
 
-							<td{{ Elemental::getTableColumnClass($column) }}>
+							<td{!! HTML::getTableColumnClass($column) !!}>
 								{!! Format::arrayToStringList(Format::objectItemsToArray($row->{Format::getMethodNameFromString($column['method'])}, $column['attribute'])) !!}
 							</td>
 
 						@else
 
-							<td{{ Elemental::getTableColumnClass($column) }}>
-								{!! Elemental::formatTableCellData(Elemental::getMethodResult($row, $column['method']), $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
+							<td{!! HTML::getTableColumnClass($column) !!}>
+								{!! HTML::formatTableCellData(HTML::getMethodResult($row, $column['method']), $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
 							</td>
 
 						@endif
 
 					@elseif (isset($column['attribute']))
+
 						@foreach ($rowArray as $dataCol => $dataCell)
 							@if ($dataCol == $column['attribute'])
 
-								<td{{ Elemental::getTableColumnClass($column) }}>
-									{!! Elemental::formatTableCellData($dataCell, $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
+								<td{!! HTML::getTableColumnClass($column) !!}>
+									{!! HTML::formatTableCellData($dataCell, $column['type'], (isset($column['typeDetails']) ? $column['typeDetails'] : false)) !!}
 								</td>
 
 							@endif
 						@endforeach
+
 					@else
-						<td{{ Elemental::getTableColumnClass($column) }}>
+
+						<td{!! HTML::getTableColumnClass($column) !!}>
 							@if (isset($column['elements']) && !empty($column['elements']))
 								@foreach ($column['elements'] as $element)
 
-									{!! Elemental::createElement($element, $row) !!}
+									{!! HTML::createElement($element, $row) !!}
 
 								@endforeach
 							@else
 								&nbsp;
 							@endif
 						</td>
+
 					@endif
 
 				@endif
@@ -53,9 +58,11 @@
 		</tr>
 	@endforeach
 @else
+
 	<tr>
 		<td colspan="{{ count($columns) }}" class="no-data">
 			{{ (isset($table['noDataMessage']) ? $table['noDataMessage'] : '') }}
 		</td>
 	</tr>
+
 @endif

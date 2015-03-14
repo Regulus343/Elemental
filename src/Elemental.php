@@ -431,10 +431,11 @@ class Elemental extends HtmlBuilder {
 		{
 			switch (strtolower($type))
 			{
-				case "date":     $cellData = Format::date($cellData);  break;
-				case "datetime": $cellData = Format::date($cellData);  break;
-				case "money":    $cellData = Format::money($cellData); break;
-				case "phone":    $cellData = Format::phone($cellData); break;
+				case "date":      $cellData = Format::date($cellData);     break;
+				case "datetime":  $cellData = Format::dateTime($cellData); break;
+				case "timestamp": $cellData = Format::dateTime($cellData); break;
+				case "money":     $cellData = Format::money($cellData);    break;
+				case "phone":     $cellData = Format::phone($cellData);    break;
 				case "boolean":
 					if (!$typeDetails)
 						$typeDetails = "Yes/No";

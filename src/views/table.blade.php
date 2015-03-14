@@ -1,11 +1,12 @@
 {{-- Data Table --}}
-<table class="table{{ Elemental::dynamicArea(isset($table['class']) && $table['class'] != "", $table['class'], true) }}">
+
+<table class="table{{ HTML::dynamicArea(isset($table['class']) && $table['class'] != "", $table['class'], true) }}">
 	<thead>
 		<tr>
 			@foreach ($columns as $column)
 				@if (!$column['developer'] || Session::get('developer'))
 
-					<th{{ Elemental::dynamicArea(isset($column['headerClass']) && $column['headerClass'] != "", $column['headerClass']) . $column['sortAttribute'] }}>
+					<th{!! HTML::dynamicArea(isset($column['headerClass']) && $column['headerClass'] != "", $column['headerClass']) . $column['sortAttribute'] !!}>
 
 						{{ $column['label'] }}
 
@@ -17,10 +18,13 @@
 	</thead>
 
 	<tbody>
+
 		@include('elemental::partials.table_body')
+
 	</tbody>
 
 	@if ($footer)
+
 		<tfoot>
 			<tr>
 				@foreach ($columns as $column)
@@ -30,5 +34,6 @@
 				@endforeach
 			</tr>
 		</tfoot>
+
 	@endif
 </table>
