@@ -7,7 +7,7 @@
 
 		created by Cody Jassman
 		version 0.5.0
-		last updated on March 7, 2014
+		last updated on March 14, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
