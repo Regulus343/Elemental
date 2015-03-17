@@ -18,6 +18,10 @@ class ElementalServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
+		$this->publishes([
+			__DIR__.'/config/html.php' => config_path('html.php'),
+		]);
+
 		$this->loadViewsFrom(__DIR__.'/views', 'elemental');
 	}
 
