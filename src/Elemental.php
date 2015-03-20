@@ -7,7 +7,7 @@
 
 		created by Cody Jassman
 		version 0.5.0
-		last updated on March 16, 2014
+		last updated on March 19, 2014
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
@@ -577,8 +577,8 @@ class Elemental extends HtmlBuilder {
 
 		if (isset($element['icon']) && $element['icon'] != "")
 		{
-			$iconElement     = config('html.icon_element');
-			$iconClassPrefix = config('html.icon_class_prefix');
+			$iconElement     = config('html.icon.element');
+			$iconClassPrefix = config('html.icon.class_prefix');
 
 			$html .= '<'.$iconElement.' class="'.$iconClassPrefix.trim($element['icon']).'"></'.$iconElement.'>';
 		}
