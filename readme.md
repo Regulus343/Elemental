@@ -29,7 +29,7 @@ Instead, you will be able to use this simple syntax:
 To install Elemental, make sure `regulus/elemental` has been added to Laravel 5's `composer.json` file.
 
 	"require": {
-		"regulus/elemental": "dev-master"
+		"regulus/elemental": "0.5.*"
 	},
 
 Then run `php composer.phar update` from the command line. Composer will install the Elemental package. Now, all you have to do is register the service provider and set up Elemental's alias in `config/app.php`. Add this to the `providers` array:
