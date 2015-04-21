@@ -18,6 +18,5 @@
 		"psr-4": {
 			"Regulus\\Elemental\\": "src/"
 		}
-	},
-	"minimum-stability": "stable"
+	}
 }
