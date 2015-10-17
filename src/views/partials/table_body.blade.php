@@ -1,12 +1,15 @@
 {{-- Data Table - Body --}}
 
 @if (count($data))
+
 	@foreach ($data as $row)
+
 		<tr id="{{ $rows['idPrefix'].$row->id }}"{{ HTML::getTableRowClass($row, $rows) }}>
 
 			<?php $rowArray = $row->toArray(); ?>
 
 			@foreach ($columns as $column)
+
 				@if (!$column['developer'] || Session::get('developer'))
 
 					@if (isset($column['method']))
@@ -28,6 +31,7 @@
 					@elseif (isset($column['attribute']))
 
 						@foreach ($rowArray as $dataCol => $dataCell)
+
 							@if ($dataCol == $column['attribute'])
 
 								<td{!! HTML::getTableColumnClass($column) !!}>
@@ -35,6 +39,7 @@
 								</td>
 
 							@endif
+
 						@endforeach
 
 					@else
@@ -54,9 +59,13 @@
 					@endif
 
 				@endif
+
 			@endforeach
+
 		</tr>
+
 	@endforeach
+
 @else
 
 	<tr>

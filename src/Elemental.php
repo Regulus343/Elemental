@@ -6,8 +6,8 @@
 		creation of active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.5.0
-		last updated on March 19, 2014
+		version 0.5.1
+		last updated on October 17, 2015
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
@@ -502,6 +502,9 @@ class Elemental extends HtmlBuilder {
 	{
 		$html = '';
 
+		if (isset($element['ignore']) && $element['ignore'])
+			return $html;
+
 		if (isset($element['conditions']) && is_array($element['conditions']))
 		{
 			$valid = $this->testAttributeConditions($item, $element['conditions']);
@@ -556,6 +559,14 @@ class Elemental extends HtmlBuilder {
 				$element['attributes']['href'] = url($element['uri']);
 			else if (isset($element['href']) && $element['href'] != "")
 				$element['attributes']['href'] = $element['href'];
+		}
+
+		if (isset($element['attributes']) && isset($element['attributes']['href']) && class_exists('Regulus\Identify\Facade'))
+		{
+			$accessible = \Regulus\Identify\Facade::hasAccess($element['attributes']['href']);
+
+			if (!$accessible)
+				return $html;
 		}
 
 		// add data to attributes where necessary
