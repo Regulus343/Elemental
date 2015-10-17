@@ -563,7 +563,12 @@ class Elemental extends HtmlBuilder {
 
 		if (isset($element['attributes']) && isset($element['attributes']['href']) && class_exists('Regulus\Identify\Facade'))
 		{
-			$accessible = \Regulus\Identify\Facade::hasAccess($element['attributes']['href']);
+			$accessVerb = "get";
+
+			if (isset($element['attributes']['data-action-type']))
+				$accessVerb = $element['attributes']['data-action-type'];
+
+			$accessible = \Regulus\Identify\Facade::hasAccess($element['attributes']['href'], $accessVerb);
 
 			if (!$accessible)
 				return $html;
