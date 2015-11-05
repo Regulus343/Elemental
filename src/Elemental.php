@@ -6,8 +6,8 @@
 		creation of active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.5.1
-		last updated on October 17, 2015
+		version 0.5.2
+		last updated on November 4, 2015
 ----------------------------------------------------------------------------------------------------------*/
 
 use Illuminate\Html\HtmlBuilder;
@@ -139,18 +139,39 @@ class Elemental extends HtmlBuilder {
 	 * Add a class to an element based on whether the given variable is true.
 	 *
 	 * @param  boolean  $active
-	 * @param  string   $class
+	 * @param  mixed    $class
 	 * @param  boolean  $inClass
 	 * @return string
 	 */
 	public function dynamicArea($active = false, $class = 'selected', $inClass = false)
 	{
+		$alternateClass = null;
+
+		if (is_array($class) && count($class) == 2)
+		{
+			$alternateClass = $class[1];
+
+			$class = $class[0];
+		}
+
+		$usedClass = null;
+
 		if ($active)
 		{
+			$usedClass = $class;
+		}
+		else
+		{
+			if (!is_null($alternateClass))
+				$usedClass = $alternateClass;
+		}
+
+		if (!is_null($usedClass))
+		{
 			if ($inClass)
-				return ' '.$class;
+				return ' '.$usedClass;
 			else
-				return ' class="'.$class.'"';
+				return ' class="'.$usedClass.'"';
 		}
 
 		return "";
