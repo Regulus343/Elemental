@@ -34,11 +34,11 @@ To install Elemental, make sure `regulus/elemental` has been added to Laravel 5'
 
 Then run `php composer.phar update` from the command line. Composer will install the Elemental package. Now, all you have to do is register the service provider and set up Elemental's alias in `config/app.php`. Add this to the `providers` array:
 
-	'Regulus\Elemental\ElementalServiceProvider',
+	Regulus\Elemental\ElementalServiceProvider::class,
 
 And add this to the `aliases` array:
 
-	'HTML' => 'Regulus\Elemental\Facade',
+	'HTML' => Regulus\Elemental\Facade::class,
 
 You may use 'Elemental', or another alias, but 'HTML' is recommended for the sake of simplicity. Elemental is now ready to go.
 
