@@ -6,11 +6,11 @@
 		creation of active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.5.3
-		last updated on August 13, 2016
+		version 0.5.4
+		last updated on September 3, 2016
 ----------------------------------------------------------------------------------------------------------*/
 
-use Illuminate\Html\HtmlBuilder;
+use Collective\Html\HtmlBuilder;
 
 use Illuminate\Routing\UrlGenerator;
 
