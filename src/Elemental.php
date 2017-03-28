@@ -6,8 +6,8 @@
 		creation of active, selected, or hidden elements.
 
 		created by Cody Jassman
-		version 0.5.4
-		last updated on September 3, 2016
+		version 0.5.5
+		last updated on March 27, 2017
 ----------------------------------------------------------------------------------------------------------*/
 
 use Collective\Html\HtmlBuilder;
