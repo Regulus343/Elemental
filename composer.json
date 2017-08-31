@@ -9,14 +9,20 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4.0",
+		"php": ">=7.0.0",
 		"laravel/framework": "5.*",
 
-		"laravelcollective/html": "5.4.*"
+		"laravelcollective/html": "5.5.x-dev"
 	},
 	"autoload": {
 		"psr-4": {
 			"Regulus\\Elemental\\": "src/"
 		}
-	}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/cmizzi/html"
+		}
+	]
 }
